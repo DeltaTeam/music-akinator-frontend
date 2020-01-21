@@ -15,6 +15,28 @@ const useStyles = makeStyles({
     color: 'white',
     height: 48,
     padding: '0 30px',
+    width: '40 px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: '108px',
+    height: '36px',
+    marginLeft: 'calc(50% - 108px/2 + 0.5px)',
+    top: 'calc(50% - 16px/2)',
+    background: '#98BF1F',
+    borderRadius: '4px',
+    /* button */
+    fontStyle: 'normal',
+    fontWeight: '500',
+    fontSize: '14px',
+    lineHeight: '16px',
+    /* identical to box height, or 114% */
+    textAlign: 'center',
+    letterSpacing: '1.25px',
+    textTransform: 'uppercase',
+    background: 'transparent',
+    border: 'none',
+    color: '#FFFFFF',
+    background: '#98BF1F',
   },
 });
 
@@ -88,6 +110,7 @@ class Recorder extends Component {
     return (
       <div> 
         <CreateRecord isRecorded = {this.state.isRecorded} isRecording = {this.state.isRecording} start = {this.start} stop = {this.stop} isRecording = {this.state.isRecording}/>
+        <RecordingMessage isRecording = {this.state.isRecording}/>
         <ListenRecord isRecorded = {this.state.isRecorded} src={this.state.blobURL} />
       </div>
     );
@@ -125,6 +148,18 @@ function CreateRecord(props){
     </div>
   }
   return <div/>
+}
+
+function RecordingMessage(props){
+  const isRecording = props.isRecording;
+
+    if(isRecording){
+      return <div>
+        IT IS RECORDING HELL YEAH OH YEAH
+        </div>
+    }
+    return <div/>  
+
 }
 
 export default Recorder;
