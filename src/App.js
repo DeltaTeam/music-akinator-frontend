@@ -3,6 +3,7 @@ import Recorder from './components/Recorder/Recorder';
 import './App.css';
 import './styles/RecorderStyle/Record.css';
 import 'typeface-roboto';
+import Button from '@material-ui/core/Button';
 
 class App extends Component {
   render() {
@@ -12,8 +13,8 @@ class App extends Component {
         backgroundColor: 'linear-gradient(to top, rgba(51, 80, 102), rgba(21,32,41))'
       }}
       >
-        <div className = 'Recorder'>
-          <Recorder/>
+        <div className='Recorder'>
+          <Recorder></Recorder>
         </div>
       </div>
     );
