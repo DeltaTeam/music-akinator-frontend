@@ -73,11 +73,27 @@ class Recorder extends Component {
       .stop()
       .getMp3()
       .then(([buffer, blob]) => {
-        const blobURL = URL.createObjectURL(blob)
+        const blobURL = URL.createObjectURL(blob);
         this.setState({ blobURL, isRecording: false });
-      }).catch((e) => console.log(e));
-      this.setState({isRecorded: true})
-  };
+        console.log(blob);
+        console.log(blobURL);})
+        .catch((e) => console.log(e));
+        this.setState({isRecorded: true});
+  // const file = new File(buffer, 'me-at-thevoice.mp3', {
+  //   type: blob.type,
+  //   lastModified: Date.now()
+  // });
+  // console.log(file);
+  // console.log(blob);
+  // console.log(buffer);
+  // const urlFile = URL.createObjectURL(file);
+  // this.setState({ urlFile, isRecording: false });
+  // console.log(urlFile);
+  // const player = new Audio(urlFile);
+  // player.play();
+  //     }).catch((e) => console.log(e));
+  //     this.setState({isRecorded: true})
+      };
 
   componentDidMount(){  
     navigator.getUserMedia = (
@@ -106,7 +122,6 @@ class Recorder extends Component {
 }
 
   render() {
-    
     return (
       <div> 
         <CreateRecord isRecorded = {this.state.isRecorded} isRecording = {this.state.isRecording} start = {this.start} stop = {this.stop} isRecording = {this.state.isRecording}/>
