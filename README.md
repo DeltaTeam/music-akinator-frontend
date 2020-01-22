@@ -3,3 +3,4 @@
 `sudo npm install @material-ui/core`
 `sudo npm install typeface-roboto --save`
 `sudo npm install @material-ui/icons`
+`npm install @material-ui/lab`
