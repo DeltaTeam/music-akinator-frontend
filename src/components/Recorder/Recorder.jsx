@@ -3,6 +3,7 @@ import MicRecorder from 'mic-recorder-to-mp3';
 import '../../styles/RecorderStyle/Record.css';
 import ListenRecord from './ListenRecord';
 import CreateRecord from './CreateRecord';
+import '../../styles/GamesStyles/Game.css';
 
 const Mp3Recorder = new MicRecorder({ bitRate: 128 });
 
@@ -16,7 +17,10 @@ class Recorder extends Component {
       isBlocked: false,
       isRecorded: false,
       text: '',
-      isTextChosen: false
+      isTextChosen: false,
+      attemptsLeft: 5,
+      hasWon: false,
+      hasLost: false
     }
   }
 
@@ -65,13 +69,35 @@ class Recorder extends Component {
             isRecording: false,
             blobURL: '',
             isBlocked: false,
-            isRecorded: false
+            isRecorded: false,
+            
           }
         );
       }
   
   handleSubmit = () => {
     console.log(this.state.blobURL);
+    const attempts = this.state.attemptsLeft;
+    //Когда будет запрос на сайт, его нужно сюда писать и здесь же проводить анализ угадал сайт или не угадал. Если угадал, то делаем hasWon - тру
+
+    if (!this.state.hasWon){
+      this.setState(
+        {attemptsLeft: attempts - 1}
+        )
+      if(attempts - 1 === 0){
+        this.props.endGame(this.state.hasWon);
+      }else{
+        this.setState({
+          isRecording: false,
+          blobURL: '',
+          isBlocked: false,
+          isRecorded: false,
+        })
+      }
+    }else{
+      this.props.endGame(this.state.hasWon);
+    }
+
   }
 
   componentDidMount(){  
@@ -104,8 +130,16 @@ class Recorder extends Component {
       <div className = 'Recorder'> 
         <CreateRecord isRecorded={this.state.isRecorded} isRecording={this.state.isRecording} start={this.start} stop={this.stop} isRecording={this.state.isRecording}/>
         <ListenRecord isRecorded={this.state.isRecorded} src={this.state.blobURL} rewrite = {this.rewrite} handleSubmit = {this.handleSubmit}/>
+        <AttemptsNumber attempts = {this.state.attemptsLeft}/>
       </div>
     );
   }
 }
+
+const AttemptsNumber = props =>(
+  <div className = 'textAttempts'>
+    you have {`${props.attempts}`} attempts left
+  </div>
+)
+
 export default Recorder;

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Recorder from './components/Recorder/Recorder';
 import './App.css';
+import Game from './components/Game/Game';
 import 'typeface-roboto';
 import Button from '@material-ui/core/Button';
 
@@ -13,7 +14,7 @@ class App extends Component {
       }}
       >
         <div >
-          <Recorder/>
+          <Game/>
         </div>
       </div>
     );
