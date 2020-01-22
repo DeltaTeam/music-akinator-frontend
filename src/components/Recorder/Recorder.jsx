@@ -3,7 +3,6 @@ import MicRecorder from 'mic-recorder-to-mp3';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
-
 const Mp3Recorder = new MicRecorder({ bitRate: 128 });
 
 const useStyles = makeStyles({
@@ -43,7 +42,6 @@ const useStyles = makeStyles({
 
 class Recorder extends Component {
 
-
   constructor(props) {
     super(props);
     this.state = {
@@ -53,8 +51,6 @@ class Recorder extends Component {
       isRecorded: false
     }
   }
-
-  
 
   start = () => {
     if (this.state.isBlocked) {
@@ -73,11 +69,28 @@ class Recorder extends Component {
       .stop()
       .getMp3()
       .then(([buffer, blob]) => {
-        const blobURL = URL.createObjectURL(blob)
+        const blobURL = URL.createObjectURL(blob);
         this.setState({ blobURL, isRecording: false });
-      }).catch((e) => console.log(e));
-      this.setState({isRecorded: true})
-  };
+        console.log(blob);
+        console.log(blobURL);})
+        .catch((e) => console.log(e));
+        this.setState({isRecorded: true});
+  // const file = new File(buffer, 'me-at-thevoice.mp3', {
+  //   type: blob.type,
+  //   lastModified: Date.now()
+  // });
+  // console.log(file);
+  // console.log(blob);
+  // console.log(buffer);
+  // const urlFile = URL.createObjectURL(file);
+  // this.setState({ urlFile, isRecording: false });
+  // console.log(urlFile);
+  // const player = new Audio(urlFile);
+  // player.play();
+  //     }).catch((e) => console.log(e));
+  //     this.setState({isRecorded: true})
+      };
+
 
   componentDidMount(){  
     navigator.getUserMedia = (
@@ -105,8 +118,8 @@ class Recorder extends Component {
   }
 }
 
+
   render() {
-    
     return (
       <div> 
         <CreateRecord isRecorded = {this.state.isRecorded} isRecording = {this.state.isRecording} start = {this.start} stop = {this.stop} isRecording = {this.state.isRecording}/>
@@ -117,13 +130,6 @@ class Recorder extends Component {
   }
   
 }
-
-
-// const Button = props =>(
-//   <button onClick={props.onClick} disabled={props.disabled}>
-//         {`${props.text}`}
-//   </button>
-// )
 
 function ListenRecord(props) {
   const isRecorded = props.isRecorded;
@@ -139,15 +145,19 @@ function CreateRecord(props){
   const isRecording = props.isRecording;
   if (!isRecorded){
     if(!isRecording){
-      return <div>
-        <Button className={classes.root} onClick = {props.start}>Start</Button>
+      return (
+        <div>
+          <Button className={classes.root} onClick = {props.start}>Start</Button>
         </div>
+      )
     }
-    return <div>  
-      <Button className={classes.root} onClick = {props.stop}>Stop</Button>
-    </div>
+    return (
+      <div>  
+        <Button className={classes.root} onClick = {props.stop}>Stop</Button>
+      </div>
+    )
   }
-  return <div/>
+  return <div/> 
 }
 
 function RecordingMessage(props){
