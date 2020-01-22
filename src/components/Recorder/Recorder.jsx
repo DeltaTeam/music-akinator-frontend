@@ -4,6 +4,7 @@ import '../../styles/RecorderStyle/Record.css';
 import ListenRecord from './ListenRecord';
 import CreateRecord from './CreateRecord';
 import '../../styles/GamesStyles/Game.css';
+import auddIO from '../../requests/audd';
 
 const Mp3Recorder = new MicRecorder({ bitRate: 128 });
 
@@ -41,8 +42,13 @@ class Recorder extends Component {
       .stop()
       .getMp3()
       .then(([buffer, blob]) => {
+        
         const blobURL = URL.createObjectURL(blob);
-        this.setState({ blobURL, isRecording: false });})
+        this.setState({ blobURL, isRecording: false });
+        console.log(blobURL);
+        var   audd = new auddIO();
+        audd.sendTest();
+      })
         .catch((e) => console.log(e));
         this.setState({isRecorded: true});
 
