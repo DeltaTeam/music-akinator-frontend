@@ -45,27 +45,6 @@
         "react-transition-group": "^4.3.0"
       }
     },
-<<<<<<< HEAD
-    "@material-ui/lab": {
-      "version": "4.0.0-alpha.39",
-      "resolved": "https://registry.npmjs.org/@material-ui/lab/-/lab-4.0.0-alpha.39.tgz",
-      "integrity": "sha512-TbYfqS0zWdOzH44K7x74+dcLlMe6o5zrIvvHA2y6IZ1l9a9/qLUZGLwBIOtkBPHDDDJ32rv/bOPzOGGbnxLUDw==",
-      "requires": {
-        "@babel/runtime": "^7.4.4",
-        "@material-ui/utils": "^4.7.1",
-        "clsx": "^1.0.4",
-        "prop-types": "^15.7.2",
-        "react-is": "^16.8.0"
-=======
-    "@material-ui/icons": {
-      "version": "4.5.1",
-      "resolved": "https://registry.npmjs.org/@material-ui/icons/-/icons-4.5.1.tgz",
-      "integrity": "sha512-YZ/BgJbXX4a0gOuKWb30mBaHaoXRqPanlePam83JQPZ/y4kl+3aW0Wv9tlR70hB5EGAkEJGW5m4ktJwMgxQAeA==",
-      "requires": {
-        "@babel/runtime": "^7.4.4"
->>>>>>> 07a12ab06d1239c7935a8e46c9f4a7d9ab100b85
-      }
-    },
     "@material-ui/styles": {
       "version": "4.8.2",
       "resolved": "https://registry.npmjs.org/@material-ui/styles/-/styles-4.8.2.tgz",
@@ -5239,14 +5218,6 @@
         "graceful-fs": "^4.1.9"
       }
     },
-    "lamejs": {
-      "version": "1.2.0",
-      "resolved": "https://registry.npmjs.org/lamejs/-/lamejs-1.2.0.tgz",
-      "integrity": "sha1-Aln4PbRmYUGntnG4yqY2nZUXfQg=",
-      "requires": {
-        "use-strict": "1.0.1"
-      }
-    },
     "lazy-cache": {
       "version": "1.0.4",
       "resolved": "https://registry.npmjs.org/lazy-cache/-/lazy-cache-1.0.4.tgz",
@@ -5550,14 +5521,6 @@
       "version": "1.1.2",
       "resolved": "https://registry.npmjs.org/methods/-/methods-1.1.2.tgz",
       "integrity": "sha1-VSmk1nZUE07cxSZmVoNbD4Ua/O4="
-    },
-    "mic-recorder-to-mp3": {
-      "version": "2.2.1",
-      "resolved": "https://registry.npmjs.org/mic-recorder-to-mp3/-/mic-recorder-to-mp3-2.2.1.tgz",
-      "integrity": "sha512-xlivxbGUjIr6DBCCJQeB1IeNuwDea+sVYi+zH38pedtKc011a/EG+nd6ykjc/O7vtWuVtPiGwixIdJfsYrN8JQ==",
-      "requires": {
-        "lamejs": "^1.2.0"
-      }
     },
     "micromatch": {
       "version": "2.3.11",
@@ -8556,11 +8519,6 @@
       "version": "3.1.1",
       "resolved": "https://registry.npmjs.org/use/-/use-3.1.1.tgz",
       "integrity": "sha512-cwESVXlO3url9YWlFW/TA9cshCEhtu7IKJ/p5soJ/gGpj7vbvFrAY/eIioQ6Dw23KjZhYgiIo8HOs1nQ2vr/oQ=="
-    },
-    "use-strict": {
-      "version": "1.0.1",
-      "resolved": "https://registry.npmjs.org/use-strict/-/use-strict-1.0.1.tgz",
-      "integrity": "sha1-C7gNlPSaSgUZK4Sox9NOlfGn46A="
     },
     "user-home": {
       "version": "2.0.0",

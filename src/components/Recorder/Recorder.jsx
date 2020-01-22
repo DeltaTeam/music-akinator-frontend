@@ -2,26 +2,24 @@ import React, { Component } from 'react';
 import MicRecorder from 'mic-recorder-to-mp3';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import '../../styles/RecorderStyle/Record.css';
+import Skeleton from '@material-ui/lab/Skeleton';
+import Mic from '../../styles/Pictures/mic.svg';
+import Stop from '../../styles/Pictures/stop.svg';
 
 const Mp3Recorder = new MicRecorder({ bitRate: 128 });
 
 const useStyles = makeStyles({
   root: {
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-    border: 0,
-    borderRadius: 3,
+
+  },
+  startR:{
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    color: 'white',
-    height: 48,
     padding: '0 30px',
-    width: '40 px',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    width: '108px',
+    width: '300px',
     height: '36px',
-    marginLeft: 'calc(50% - 108px/2 + 0.5px)',
+    marginLeft: 'calc(50% - 300px/2 + 0.5px)',
     top: 'calc(50% - 16px/2)',
-    background: '#98BF1F',
     borderRadius: '4px',
     /* button */
     fontStyle: 'normal',
@@ -32,12 +30,36 @@ const useStyles = makeStyles({
     textAlign: 'center',
     letterSpacing: '1.25px',
     textTransform: 'uppercase',
-    background: 'transparent',
     border: 'none',
     color: '#FFFFFF',
     background: '#98BF1F',
   },
-});
+  stopR:{
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    padding: '0 30px',
+    width: '300px',
+    height: '36px',
+    marginLeft: 'calc(50% - 300px/2 + 0.5px)',
+    top: 'calc(50% - 16px/2)',
+    borderRadius: '4px',
+    /* button */
+    fontStyle: 'normal',
+    fontWeight: '500',
+    fontSize: '14px',
+    lineHeight: '16px',
+    /* identical to box height, or 114% */
+    textAlign: 'center',
+    letterSpacing: '1.25px',
+    textTransform: 'uppercase',
+    border: 'none',
+    color: '#FFFFFF',
+    background: 'red',
+  },
+  skel:{
+    width:300,
+    background: 'red',
+  },
+}); 
 
 
 class Recorder extends Component {
@@ -121,10 +143,10 @@ class Recorder extends Component {
 
   render() {
     return (
-      <div> 
-        <CreateRecord isRecorded = {this.state.isRecorded} isRecording = {this.state.isRecording} start = {this.start} stop = {this.stop} isRecording = {this.state.isRecording}/>
-        <RecordingMessage isRecording = {this.state.isRecording}/>
-        <ListenRecord isRecorded = {this.state.isRecorded} src={this.state.blobURL} />
+      <div className = 'Recorder'> 
+        <CreateRecord isRecorded={this.state.isRecorded} isRecording={this.state.isRecording} start={this.start} stop={this.stop} isRecording={this.state.isRecording}/>
+        {/* <RecordingMessage isRecording={this.state.isRecording}/> */}
+        <ListenRecord isRecorded={this.state.isRecorded} src={this.state.blobURL} />
       </div>
     );
   }
@@ -145,28 +167,28 @@ function CreateRecord(props){
   const isRecording = props.isRecording;
   if (!isRecorded){
     if(!isRecording){
-      return (
-        <div>
-          <Button className={classes.root} onClick = {props.start}>Start</Button>
+      return <div>
+        <Skeleton className={ classes.skel} animation={false}/>
+        <Button className={ classes.startR } onClick={props.start}>Start Recording <img src={Mic} width={36} height={36}/></Button>
+        <Skeleton className={ classes.skel} animation={false}/>
         </div>
-      )
+      
     }
-    return (
-      <div>  
-        <Button className={classes.root} onClick = {props.stop}>Stop</Button>
-      </div>
-    )
+    return <div>
+        <Skeleton className={ classes.skel} />  
+        <Button  className = {classes.stopR} onClick={props.stop}>Stop Recording <img src={Stop} width={36} height={36}/></Button>
+        <Skeleton className={ classes.skel} />
+    </div>
   }
   return <div/> 
 }
 
 function RecordingMessage(props){
   const isRecording = props.isRecording;
-
+  const classes = useStyles();
     if(isRecording){
-      return <div>
-        IT IS RECORDING HELL YEAH OH YEAH
-        </div>
+      return   <img src={Mic} width={40} height={40}/>
+      // <img src={Mic}/>
     }
     return <div/>  
 

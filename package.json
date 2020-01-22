@@ -4,8 +4,12 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.8.3",
+<<<<<<< HEAD
+    "@material-ui/lab": "^4.0.0-alpha.39",
+=======
     "@material-ui/icons": "^4.5.1",
     "mic-recorder-to-mp3": "^2.2.1",
+>>>>>>> 07a12ab06d1239c7935a8e46c9f4a7d9ab100b85
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-scripts": "0.9.5",
