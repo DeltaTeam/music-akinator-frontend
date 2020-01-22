@@ -1,3 +1,5 @@
+
+
 var request = require('request');
 
 class auddIO {
@@ -8,8 +10,9 @@ class auddIO {
         var data = {
             'url': 'https://audd.tech/example1.mp3',
             'return': 'timecode, deezer, lirycs',
-            'api_token': '6950b7b569a80df42c26795865702903'
+            'api_token': 'test'
           }
+          console.log(data);
           request
             ({
               uri:'https://api.audd.io/',
