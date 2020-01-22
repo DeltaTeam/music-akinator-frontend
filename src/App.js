@@ -12,7 +12,7 @@ class App extends Component {
         backgroundColor: 'linear-gradient(to top, rgba(51, 80, 102), rgba(21,32,41))'
       }}
       >
-        <div className = 'Recorder'>
+        <div >
           <Recorder/>
         </div>
       </div>
