@@ -9,6 +9,7 @@ import auddIO from '../../requests/audd';
 const Mp3Recorder = new MicRecorder({ bitRate: 128 });
 
 class Recorder extends Component {
+  audd = new auddIO();
 
   constructor(props) {
     super(props);
@@ -45,9 +46,6 @@ class Recorder extends Component {
         
         const blobURL = URL.createObjectURL(blob);
         this.setState({ blobURL, isRecording: false });
-        console.log(blobURL);
-        var   audd = new auddIO();
-        audd.sendTest();
       })
         .catch((e) => console.log(e));
         this.setState({isRecorded: true});
@@ -82,9 +80,10 @@ class Recorder extends Component {
       }
   
   handleSubmit = () => {
-    console.log(this.state.blobURL);
     const attempts = this.state.attemptsLeft;
     //Когда будет запрос на сайт, его нужно сюда писать и здесь же проводить анализ угадал сайт или не угадал. Если угадал, то делаем hasWon - тру
+    console.log(await this.audd.sendTest())
+    // console.log(this.state.blobURL);
 
     if (!this.state.hasWon){
       this.setState(

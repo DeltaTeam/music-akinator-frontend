@@ -1,112 +1,86 @@
 
-
 var request = require('request');
 
 class auddIO {
     constructor(){
-        this.res = {};
+        this.rtn = {};
+        this.api_token= '6950b7b569a80df42c26795865702903';
     }
-    sendTest(){
+    async sendTest(){
         var data = {
             'url': 'https://audd.tech/example1.mp3',
-            'return': 'timecode, deezer, lirycs',
-            'api_token': 'test'
+            'return': 'timecode,deezer,spotify',
+            'api_token': this.api_token
           }
-          console.log(data);
-          request
+        var req = request
+            ({
+              uri:'https://api.audd.io/',   
+              form: data,
+              method: 'POST'
+            },async function(err,res,body){
+                console.log(res.body);
+                this.rtn = res.body;
+                return(await res.body);
+            });
+            return await req;
+          }
+    
+    sendTest1(){
+      var data = {
+        'url': 'https://audd.tech/example1.mp3',
+        'return': 'timecode,deezer,spotify',
+        'api_token': this.api_token
+      }
+      var req = request
+        ({
+          uri:'https://api.audd.io/',
+          form: data,
+          method: 'POST'
+        },function(err,res,body){
+            console.log(body);
+            return body;
+        });
+      return({});
+    }
+
+    sendAudioBlob([buffer, blob]){
+      var data = {
+        'url': 'https://audd.tech/example1.mp3',
+        'return': 'timecode,deezer,spotify',
+        'api_token': this.api_token
+      }
+      request
+        ({
+          uri:'https://api.audd.io/',
+          form: data,
+          method: 'POST'
+        },function(err,res,body){
+            console.log(body);
+            this.rtn = res.body;
+            // this.rtn = {data};
+        });
+        return this.rtn;
+      }
+
+      async sendLyrics(lyrics){
+        var data = {
+            'method':'findLyrics',
+            'q':lyrics,
+            'return': 'timecode,deezer,spotify',
+            'api_token': this.api_token
+          }
+        var req = request
             ({
               uri:'https://api.audd.io/',
               form: data,
               method: 'POST'
-            },function(err,res,body){
-              console.log(err);
-              console.log(res);
-              console.log(body);
-              res = body;
+            },async function(err,res,body){
+                console.log(res.body);
+                this.rtn = res.body;
+                return(await res.body);
             });
-            return this.res;
-          }
-    
-
-    // sendAudioBlob([buffer, blob])
-    // {
-    //     const blobURL=URL.createObjectURL(blob);
-    //     console.log(blob);
-    //     console.log(blobURL);
-
-    //     var reader = new FileReader();
-    //     reader.readAsDataURL(blob); 
-    //     reader.onloadend = function() {
-    //         var base64data = reader.result;                
-    //         // console.log(base64data);
-
-    //         var data = {
-    //           'audio': base64data,
-    //           // 'url': 'https://audd.tech/example1.mp3',
-    //           "method":"recognize",
-    //           'return': 'timecode, deezer',
-    //           'api_token': '6950b7b569a80df42c26795865702903'
-    //         }
-
-    //         request
-    //         ({
-    //           headers: {
-    //             // 'Content-Length': base64data.length,
-    //             'Content-Type': 'multipart/form-data'
-    //           },
-    //           uri:'https://api.audd.io/',sendAudioBlob([buffer, blob])
-    // {
-    //     const blobURL=URL.createObjectURL(blob);
-    //     console.log(blob);
-    //     console.log(blobURL);
-
-    //     var reader = new FileReader();
-    //     reader.readAsDataURL(blob); 
-    //     reader.onloadend = function() {
-    //         var base64data = reader.result;                
-    //         // console.log(base64data);
-
-    //         var data = {
-    //           'audio': base64data,
-    //           // 'url': 'https://audd.tech/example1.mp3',
-    //           "method":"recognize",
-    //           'return': 'timecode, deezer',
-    //           'api_token': '6950b7b569a80df42c26795865702903'
-    //         }
-
-    //         request
-    //         ({
-    //           headers: {
-    //             // 'Content-Length': base64data.length,
-    //             'Content-Type': 'multipart/form-data'
-    //           },
-    //           uri:'https://api.audd.io/',
-    //           audio : base64data,
-    //           method: 'POST'
-    //         },function(err,res,body){
-    //           console.log(err);
-    //           console.log(res);
-    //           console.log(body);
-    //         });
-    //       }
-    // }
-
-    // sendLirycs(){
-
-    // }
-    //           audio : base64data,
-    //           method: 'POST'
-    //         },function(err,res,body){
-    //           console.log(err);
-    //           console.log(res);
-    //           console.log(body);
-    //         });
-    //       }
-    // }
-
-    // sendLirycs(){
-
-    // }
+            return await req;
+      }
 }
 
 export default auddIO
