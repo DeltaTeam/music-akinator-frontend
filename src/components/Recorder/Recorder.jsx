@@ -19,7 +19,6 @@ class Recorder extends Component {
       isBlocked: false,
       isRecorded: false,
       text: '',
-      isTextChosen: false,
       attemptsLeft: 5,
       hasWon: false,
       hasLost: false
@@ -37,61 +36,46 @@ class Recorder extends Component {
         }).catch((e) => console.error(e));
     }
   };
-
   stop = () => {
     Mp3Recorder
       .stop()
       .getMp3()
       .then(([buffer, blob]) => {
-        
+
         const blobURL = URL.createObjectURL(blob);
         this.setState({ blobURL, isRecording: false });
       })
-        .catch((e) => console.log(e));
-        this.setState({isRecorded: true});
+      .catch((e) => console.log(e));
+    this.setState({ isRecorded: true });
+  };
+  rewrite = () => {
+    this.setState(
+      {
+        isRecording: false,
+        blobURL: '',
+        isBlocked: false,
+        isRecorded: false,
 
-  
-  // const file = new File(buffer, 'me-at-thevoice.mp3', {
-  //   type: blob.type,
-  //   lastModified: Date.now()
-  // });
-  // console.log(file);
-  // console.log(blob);
-  // console.log(buffer);
-  // const urlFile = URL.createObjectURL(file);
-  // this.setState({ urlFile, isRecording: false });
-  // console.log(urlFile);
-  // const player = new Audio(urlFile);
-  // player.play();
-  //     }).catch((e) => console.log(e));
-  //     this.setState({isRecorded: true})
-      };
-
-      rewrite = () => {
-        this.setState(
-          {
-            isRecording: false,
-            blobURL: '',
-            isBlocked: false,
-            isRecorded: false,
-            
-          }
-        );
       }
-  
+    );
+  }
+
+
+
+
   handleSubmit = () => {
-    const attempts = this.state.attemptsLeft;
+    const attempts = this.props.attempts;
     //Когда будет запрос на сайт, его нужно сюда писать и здесь же проводить анализ угадал сайт или не угадал. Если угадал, то делаем hasWon - тру
-    console.log(await this.audd.sendTest())
+    // console.log(this.audd.sendTest())
     // console.log(this.state.blobURL);
 
-    if (!this.state.hasWon){
-      this.setState(
-        {attemptsLeft: attempts - 1}
-        )
-      if(attempts - 1 === 0){
+    if (!this.state.hasWon) {
+      this.props.attemptsDecrease();
+      if (attempts - 1 === 0) {
+        this.props.attemptsResert();
         this.props.endGame(this.state.hasWon);
-      }else{
+      }
+      else {
         this.setState({
           isRecording: false,
           blobURL: '',
@@ -99,50 +83,59 @@ class Recorder extends Component {
           isRecorded: false,
         })
       }
-    }else{
+    } else {
       this.props.endGame(this.state.hasWon);
     }
 
   }
 
-  componentDidMount(){  
+  componentDidMount() {
     navigator.getUserMedia = (
       navigator.getUserMedia ||
       navigator.webkitGetUserMedia ||
       navigator.mozGetUserMedia ||
       navigator.msGetUserMedia
-  );
-  
+    );
+
     if (typeof navigator.mediaDevices.getUserMedia === 'undefined') {
-        navigator.getUserMedia({
-            audio: true
-        },() => {
-          console.log('Permission Denied');
-          this.setState({ isBlocked: true })
-        });
+      navigator.getUserMedia({
+        audio: true
+      }, () => {
+        console.log('Permission Denied');
+        this.setState({ isBlocked: true })
+      });
 
     } else {
-        navigator.mediaDevices.getUserMedia({
-            audio: true
-        },() => {
-          console.log('Permission Denied');
-          this.setState({ isBlocked: true })
-        })  
+      navigator.mediaDevices.getUserMedia({
+        audio: true
+      }, () => {
+        console.log('Permission Denied');
+        this.setState({ isBlocked: true })
+      })
     }
   }
+
   render() {
     return (
-      <div className = 'Recorder'> 
-        <CreateRecord isRecorded={this.state.isRecorded} isRecording={this.state.isRecording} start={this.start} stop={this.stop} isRecording={this.state.isRecording}/>
-        <ListenRecord isRecorded={this.state.isRecorded} src={this.state.blobURL} rewrite = {this.rewrite} handleSubmit = {this.handleSubmit}/>
-        <AttemptsNumber attempts = {this.state.attemptsLeft}/>
+      <div className='Recorder'>
+        <CreateRecord 
+          isRecorded={this.state.isRecorded} 
+          isRecording={this.state.isRecording} 
+          start={this.start} stop={this.stop} 
+          isRecording={this.state.isRecording} />
+        <ListenRecord 
+          isRecorded={this.state.isRecorded} 
+          src={this.state.blobURL} 
+          rewrite={this.rewrite} 
+          handleSubmit={this.handleSubmit} />
+        <AttemptsNumber attempts={this.props.attempts} />
       </div>
     );
   }
 }
 
-const AttemptsNumber = props =>(
-  <div className = 'textAttempts'>
+const AttemptsNumber = props => (
+  <div className='textAttempts'>
     you have {`${props.attempts}`} attempts left
   </div>
 )
