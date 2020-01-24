@@ -1,29 +1,59 @@
-.textBlock{
+.greyColor {
+    color: rgb(235, 217, 217);
+}
+
+.redColor {
+    color: red;
+}
+
+.greenColor {
+    color: greenyellow;
+}
+
+.titleColor {
+    color: white;
+}
+
+.titleBlock {
+    font-style: normal;
+    text-align: center;
+    letter-spacing: 1.25px;
+    text-transform: uppercase;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+.scoreBlock {
+    font-style: normal;
+    text-align: center;
+    letter-spacing: 1.25px;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+.textBlock {
     font-style: normal;
     font-weight: 500;
     font-size: 18px;
-    line-height: 16px,;
+    line-height: 16px;
     /* identical to box height, or 114% */
     text-align: center;
     letter-spacing: 1.25px;
     text-transform: uppercase;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    
 }
 
-.greyColor{
-    color: rgb(235, 217, 217);
+.smallTextBlock {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 16px;
+    /* identical to box height, or 114% */
+    text-align: center;
+    letter-spacing: 1.25px;
+    text-transform: uppercase;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 }
 
-.redColor{
-    color: red;
-}
-
-.greenColor{
-    color: greenyellow;
-}
-
-.gameBlock{
+.gameBlock {
     margin-left: calc(50% - 300px/2 + 0.5px);
     width: 300px;
 }

@@ -19,7 +19,6 @@ class Recorder extends Component {
       isBlocked: false,
       isRecorded: false,
       text: '',
-      isTextChosen: false,
       attemptsLeft: 5,
       hasWon: false,
       hasLost: false,
@@ -62,23 +61,6 @@ class Recorder extends Component {
       .catch((e) => console.log(e));
     this.setState({ isRecorded: true });
 
-
-    // const file = new File(buffer, 'me-at-thevoice.mp3', {
-    //   type: blob.type,
-    //   lastModified: Date.now()
-    // });
-    // console.log(file);
-    // console.log(blob);
-    // console.log(buffer);
-    // const urlFile = URL.createObjectURL(file);
-    // this.setState({ urlFile, isRecording: false });
-    // console.log(urlFile);
-    // const player = new Audio(urlFile);
-    // player.play();
-    //     }).catch((e) => console.log(e));
-    //     this.setState({isRecorded: true})
-  };
-
   rewrite = () => {
     this.setState(
       {
@@ -91,19 +73,20 @@ class Recorder extends Component {
     );
   }
 
-  handleSubmit = () => {
-    const attempts = this.state.attemptsLeft;
-    //Когда будет запрос на сайт, его нужно сюда писать и здесь же проводить анализ угадал сайт или не угадал. Если угадал, то делаем hasWon - тру
-    this.audd.sendTest(this.handleResponse)
-    // console.log(this.state.blobURL);
 
+  handleSubmit = () => {
+    const attempts = this.props.attempts;
+    //Когда будет запрос на сайт, его нужно сюда писать и здесь же проводить анализ угадал сайт или не угадал. Если угадал, то делаем hasWon - тру
+    // console.log(this.audd.sendTest())
+    // console.log(this.state.blobURL);
+    this.audd.sendTest(this.handleResponse)
     if (!this.state.hasWon) {
-      this.setState(
-        { attemptsLeft: attempts - 1 }
-      )
+      this.props.attemptsDecrease();
       if (attempts - 1 === 0) {
+        this.props.attemptsResert();
         this.props.endGame(this.state.hasWon);
-      } else {
+      }
+      else {
         this.setState({
           isRecording: false,
           blobURL: '',
@@ -142,12 +125,21 @@ class Recorder extends Component {
       })
     }
   }
+
   render() {
     return (
       <div className='Recorder'>
-        <CreateRecord isRecorded={this.state.isRecorded} isRecording={this.state.isRecording} start={this.start} stop={this.stop} isRecording={this.state.isRecording} />
-        <ListenRecord isRecorded={this.state.isRecorded} src={this.state.blobURL} rewrite={this.rewrite} handleSubmit={this.handleSubmit} />
-        <AttemptsNumber attempts={this.state.attemptsLeft} />
+        <CreateRecord 
+          isRecorded={this.state.isRecorded} 
+          isRecording={this.state.isRecording} 
+          start={this.start} stop={this.stop} 
+          isRecording={this.state.isRecording} />
+        <ListenRecord 
+          isRecorded={this.state.isRecorded} 
+          src={this.state.blobURL} 
+          rewrite={this.rewrite} 
+          handleSubmit={this.handleSubmit} />
+        <AttemptsNumber attempts={this.props.attempts} />
       </div>
     );
   }

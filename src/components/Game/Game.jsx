@@ -5,15 +5,21 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 
+import Header from './mainPage/Header';
+import Score from './mainPage/Score';
+import ClearScore from './mainPage/ClearScore';
+import ShowRecorder from './mainPage/ShowRecorder';
+import ChooseInput from './inputTypePage/ChooseInput';
+
 const useStyles = makeStyles({
     root: {
-  
+
     },
-    skel:{
-      width:300,
-      background: 'red',
+    skel: {
+        width: 300,
+        background: 'red',
     },
-    startR:{
+    startR: {
         boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
         padding: '0 30px',
         width: '300px',
@@ -33,21 +39,72 @@ const useStyles = makeStyles({
         border: 'none',
         color: '#FFFFFF',
         background: '#98BF1F',
-      },
-  }); 
+    },
+});
 
 class Game extends Component {
     constructor(props) {
         super(props);
         this.state = {
             userStrick: 0,
-            userGames: 0,
+            userGames: 1,
             gameEnded: true,
-            hasWon: false
+            hasWon: 0,
+            inputTypeChosen: 0,
+            attempts: 5
         }
-        }
+    }
 
-    endGame = (resault) =>{
+    attemptsDecrease = () => {
+        let val = this.state.attempts - 1;
+        this.setState({
+            attempts: val
+        })  
+    }
+    attemptsResert = () => {
+        this.setState({
+            attempts: 5
+        }) 
+    }
+
+    textChosen = () => {
+        this.setState({
+            inputTypeChosen: -1
+        })
+    }
+
+    audioChosen = () => {
+        this.setState({
+            inputTypeChosen: 1
+        })
+    }
+
+    inputChosenReset = () => {
+        this.setState({
+            inputTypeChosen: 0
+        })
+    }
+
+    correct = () => {
+        this.setState({
+            hasWon: -1
+        })
+    }
+
+    incorrect = () => {
+        this.setState({
+            hasWon: 1
+        })
+    }
+    wonReset = () => {
+        this.setState({
+            hasWon: 0
+        })
+    }
+
+
+
+    endGame = (resault) => {
         //const resault = props.resault,
         const Games = this.state.userGames;
         const Strick = this.state.userStrick;
@@ -56,94 +113,105 @@ class Game extends Component {
             hasWon: resault,
             userGames: Games + 1,
         })
-        if (resault){
+        if (resault) {
             this.setState({
                 userStrick: Strick + 1
             })
         }
-        else{
+        else {
             this.setState({
                 userStrick: 0
             })
         }
     }
 
-    startGame = () =>{
+    startGame = () => {
         this.setState({
             gameEnded: false
         })
     }
 
-  render() {
-    return (
-    <div className = 'gameBlock'>
-        <GamesNumber games = {this.state.userGames}/>
-        <StrickNumber strick = {this.state.userStrick}/>
-        <ShowRecorder gameEnded = {this.state.gameEnded} games = {this.state.userGames} startGame = {this.startGame} endGame = {this.endGame}/>
-    </div>
-    );
-  }
-  
+    clearScore = () => {
+        this.setState({
+            userStrick: 0,
+            userGames: 0
+        })
+    }
+
+    render() {
+        return (
+            <div className='gameBlock'>
+                <Header />
+                <Score
+                    strick={this.state.userStrick}
+                    games={this.state.userGames}
+                    gameEnded={this.state.gameEnded} />
+                <ClearScore
+                    gameEnded={this.state.gameEnded}
+                    clearScore={this.clearScore}
+                    userGames={this.state.userGames} />
+                <ChooseInput round={this.state.attempts} inputTypeChosen = {this.state.inputTypeChosen}></ChooseInput>
+                <ShowRecorder
+                    gameEnded={this.state.gameEnded}
+                    inputTypeChosen={this.state.inputTypeChosen}
+                    audioChosen={this.audioChosen}
+                    textChosen={this.textChosen} 
+                    attempts = {this.state.attempts}
+                    hasWon = {this.state.hasWon}
+
+                    startGame={this.startGame}
+                    endGame={this.endGame}
+                    attemptsDecrease = {this.attemptsDecrease}
+                    attemptsResert = {this.attemptsResert}
+                    correct = {this.correct}
+                    incorrect = {this.incorrect}
+                    wonReset = {this.wonReset}
+                    />
+            </div>
+        );
+    }
 }
-function GameResault(props){
+
+
+
+
+
+function GameResault(props) {
     const classes = useStyles();
-
     const hasWon = props.hasWon;
-
-      if(hasWon){
+    if (hasWon) {
         return <div>
-            <Skeleton className={ classes.skel} animation={false}/>
-            <div className = 'textBlock greenColor'>
+            <Skeleton className={classes.skel} animation={false} />
+            <div className='textBlock greenColor'>
                 You win!
             </div>
-            <Skeleton className={ classes.skel} animation={false}/>
-          </div>
-        
-      }
-      return <div>
-          <Skeleton className={ classes.skel} animation={false}/>
-          <div className = 'textBlock redColor'>
-                You loose!
+            <Skeleton className={classes.skel} animation={false} />
         </div>
-          <Skeleton className={ classes.skel} animation={false}/>
-      </div>
-    
-  } 
 
-  function ShowRecorder(props){
-    const classes = useStyles();
-    const gameEnded = props.gameEnded;
-    const games = props.games;
-    if (gameEnded){
-        if(games === 0){
-            return <div>
-                <Skeleton className={ classes.skel} animation={false}/>
-                <Button className={ classes.startR } onClick={props.startGame}>Start Game</Button>
-                <Skeleton className={ classes.skel} animation={false}/>
-                </div>
-        }
-        else{
-            return <div>
-                <GameResault hasWon = {props.hasWon}/>
-                <Button className={ classes.startR } onClick={props.startGame}>Try again</Button>
-            </div>
-        }
     }
     return <div>
-        <Recorder endGame = {props.endGame}/>
+        <Skeleton className={classes.skel} animation={false} />
+        <div className='textBlock redColor'>
+            You loose!
+        </div>
+        <Skeleton className={classes.skel} animation={false} />
     </div>
-  }  
+}
 
-  const GamesNumber = props =>(
-    <div className = 'textBlock greyColor'>
+
+
+
+
+const GamesNumber = props => (
+    <div className='textBlock greyColor'>
         you have played {`${props.games}`} games
     </div>
-  )
-  const StrickNumber = props =>(
-    <div className = 'textBlock greyColor'>
+)
+
+const StrickNumber = props => (
+    <div className='textBlock greyColor'>
         You've win {`${props.strick}`} games in a row!
     </div>
-  )
-  
+)
 
 export default Game;
