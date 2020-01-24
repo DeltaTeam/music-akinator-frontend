@@ -6,11 +6,11 @@ import CreateRecord from './CreateRecord';
 import '../../styles/GamesStyles/Game.css';
 import auddIO from '../../requests/audd';
 
+
 const Mp3Recorder = new MicRecorder({ bitRate: 128 });
 
 class Recorder extends Component {
   audd = new auddIO();
-
   constructor(props) {
     super(props);
     this.state = {
@@ -21,7 +21,8 @@ class Recorder extends Component {
       text: '',
       attemptsLeft: 5,
       hasWon: false,
-      hasLost: false
+      hasLost: false,
+      response: ''
     }
   }
 
@@ -36,6 +37,18 @@ class Recorder extends Component {
         }).catch((e) => console.error(e));
     }
   };
+
+  handleResponse = (response) => {
+    //const resault = props.resault,
+    const res = response;
+    this.setState({
+      response: res,
+    }, () => {
+      console.log(this.state.response)
+    });
+    ;
+  }
+
   stop = () => {
     Mp3Recorder
       .stop()
@@ -47,7 +60,7 @@ class Recorder extends Component {
       })
       .catch((e) => console.log(e));
     this.setState({ isRecorded: true });
-  };
+
   rewrite = () => {
     this.setState(
       {
@@ -61,14 +74,12 @@ class Recorder extends Component {
   }
 
 
-
-
   handleSubmit = () => {
     const attempts = this.props.attempts;
     //Когда будет запрос на сайт, его нужно сюда писать и здесь же проводить анализ угадал сайт или не угадал. Если угадал, то делаем hasWon - тру
     // console.log(this.audd.sendTest())
     // console.log(this.state.blobURL);
-
+    this.audd.sendTest(this.handleResponse)
     if (!this.state.hasWon) {
       this.props.attemptsDecrease();
       if (attempts - 1 === 0) {
