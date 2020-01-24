@@ -17,24 +17,21 @@ class auddIO {
     handleResponse(readResponse());
   }
 
-  // sendTest1(handleResponse) {
-  //   var data = {
-  //     'url': 'https://audd.tech/example1.mp3',
-  //     'return': 'timecode,deezer,spotify',
-  //     'api_token': this.api_token
-  //   }
-  //   var req = request
-  //     ({
-  //       uri: 'https://api.audd.io/',
-  //       form: data,
-  //       method: 'POST'
-  //     }, function (err, res, body) {
-  //       // console.log(res.body);
-  //       this.rtn = res.body;
-  //       handleResponse(body);
-  //       return (res.body);
-  //     });
-  // }
+  sendTest1(handleResponse) {
+    var data = {
+      'url': 'https://audd.tech/example1.mp3',
+      'return': 'timecode,deezer,spotify',
+      'api_token': this.api_token
+    }
+    var req = request
+      ({
+        uri: 'https://api.audd.io/',
+        form: data,
+        method: 'POST'
+      }, function (err, res, body) {
+        handleResponse(body);
+      });
+  }
 
   sendAudio(handleResponse,file) {
     var data = {
