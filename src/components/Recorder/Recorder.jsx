@@ -20,6 +20,7 @@ class Recorder extends Component {
       isBlocked: false,
       isRecorded: false,
       song: '',
+      blobUrl : '',
 
       sended: false,
       response: '',
