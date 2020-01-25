@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import '../../styles/RecorderStyle/Record.css';
 import Skeleton from '@material-ui/lab/Skeleton';
-import React, { Component } from 'react';
+import React from 'react';
 import Submit from '../../styles/Pictures/submit.svg';
 import Rewrite from '../../styles/Pictures/rewrite.svg';
 
@@ -68,6 +68,16 @@ export default function MsgAndAnswer(props) {
     if (props.sended) { 
       if (props.responseIsReady) {
         let response = JSON.parse(props.response)
+        console.log(response);
+        if(response.status === 'error'){
+          return(
+            <div>
+              <p className='standartTextBlock greyColor'>Incorrect length</p>
+              <p className='standartTextBlock greyColor'>And switch on your micro!!!</p>
+              <Continue incorrectAnswer={props.undefinedAnswer} />
+            </div>
+          )
+        }
         if (response.result !== null) {
           return (
             <div>
@@ -83,11 +93,10 @@ export default function MsgAndAnswer(props) {
           return (
             <div>
               <NullAnswer />
-              <Continue incorrectAnswer={props.incorrectAnswer} />
+              <Continue incorrectAnswer={props.undefinedAnswer} />
             </div>
           )
         }
-
       }
       else {
         return (

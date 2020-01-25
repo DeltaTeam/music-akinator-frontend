@@ -60,7 +60,6 @@ class Recorder extends Component {
     this.setState({
       response: responseAudd, responseIsReady: true
     }, () => {
-      // console.log(this.state.response);
     });
   }
 
@@ -72,8 +71,7 @@ class Recorder extends Component {
         this.setState({
           file: blob,
           fileIsReady: true
-        }, () => { console.log(this.state.file) });
-        this.timeStart = this.time.getTime();
+        });
 
         const blobURL = URL.createObjectURL(blob);
         this.setState({ blobURL, isRecording: false });
@@ -98,9 +96,7 @@ class Recorder extends Component {
     this.setState({
       sended: true
     });
-    // this.audd.sendAudio(this.handleResponse, this.state.file);
-    this.audd.sendTest(this.handleResponse);
-    //Когда будет запрос на сайт, его нужно сюда писать и здесь же проводить анализ угадал сайт или не угадал. Если угадал, то делаем hasWon - тру
+    this.audd.sendAudio(this.handleResponse, this.state.file);
   }
   sendedReset = () => {
     this.setState({
@@ -108,17 +104,35 @@ class Recorder extends Component {
       responseIsReady: false
     })
   }
+  songConvert = (el) => {
+    let res = {
+      artist: el.result.artist,
+      title: el.result.title,
+      song: el.result.deezer.preview
+    }
+    return res;
+  }
   incorrectAnswer = () => {
     this.props.attemptsDecrease();
     this.sendedReset();
-    this.props.addSongInList(JSON.parse(this.state.response));
+    let listItem = this.songConvert(JSON.parse(this.state.response));;
+    this.props.addSongInList(listItem);
+    if (this.props.attempts - 1 === 0) {
+      this.props.attemptsReset();
+      this.props.incorrect();
+    }
+  }
+  undefinedAnswer = () => {
+    this.props.attemptsDecrease();
+    this.sendedReset();
     if (this.props.attempts - 1 === 0) {
       this.props.attemptsReset();
       this.props.incorrect();
     }
   }
   correctAnswer = () => {
-    this.props.addSongInList(JSON.parse(this.state.response));
+    let listItem = this.songConvert(JSON.parse(this.state.response));
+    this.props.addSongInList(listItem);
     this.props.attemptsReset();
     this.props.correct();
   }
@@ -160,8 +174,7 @@ class Recorder extends Component {
         <CreateRecord
           isRecorded={this.state.isRecorded}
           isRecording={this.state.isRecording}
-          start={this.start} stop={this.stop}
-          isRecording={this.state.isRecording} />
+          start={this.start} stop={this.stop} />
         <ListenRecord
           isRecorded={this.state.isRecorded}
           sended={this.state.sended}
@@ -172,7 +185,8 @@ class Recorder extends Component {
           rewrite={this.rewrite}
           sendSong={this.sendSong}
           incorrectAnswer={this.incorrectAnswer}
-          correctAnswer={this.correctAnswer} />
+          correctAnswer={this.correctAnswer}
+          undefinedAnswer={this.undefinedAnswer} />
         <AttemptsNumber attempts={this.props.attempts} />
       </div>
     );

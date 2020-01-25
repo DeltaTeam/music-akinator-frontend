@@ -41,7 +41,6 @@ class auddIO {
       'api_token': this.api_token
     }
 
-    console.log(file);
     var formData = new FormData();
     formData.append('file', data.file);
     formData.append('return', 'timecode,deezer,spotify');
@@ -53,12 +52,8 @@ class auddIO {
 
     oReq.onload = function(oEvent) {
         if (oReq.status == 200) {
-            console.log("Uploaded");
-            console.log(oReq);
-            console.log(oEvent);
             handleResponse(oReq.response);
         } else {
-            console.log("Error " + oReq.status + " occurred uploading your file.");
             handleResponse({'status':'error'});
           }
   };

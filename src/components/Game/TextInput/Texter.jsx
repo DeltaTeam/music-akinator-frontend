@@ -14,9 +14,11 @@ class Texter extends Component {
             isRecording: false,
             isBlocked: false,
             isRecorded: false,
-            text: 'hello it`s me',
+            text: '',
+
             sended: false,
-            response: ''
+            response: '',
+            responseIsReady: false
         }
     }
     getSongInfo() {
@@ -25,26 +27,49 @@ class Texter extends Component {
 
     handleResponse = (responseAudd) => {
         this.setState({
-            response: responseAudd,
+            response: responseAudd, responseIsReady: true
         }, () => {
-            console.log(this.state.response);
         });
     }
     sendText = () => {
-        this.setState({
-            sended: true
-        })
-        console.log("sendText");
-        console.log(document.getElementsByClassName("textInputBlock")[0]);
-        //Когда будет запрос на сайт, его нужно сюда писать и здесь же проводить анализ угадал сайт или не угадал. Если угадал, то делаем hasWon - тру
-        this.audd.sendLyrics(this.handleResponse, this.state.text);
+        if (this.getText().length !== 0) {
+            this.setState({
+                sended: true
+            })
+            this.audd.sendLyrics(this.handleResponse, this.getText());
+        }
     }
     sendedReset = () => {
         this.setState({
-            sended: false
+            sended: false,
+            responseIsReady: false
         })
     }
+    getText = () => {
+        let newText = document.getElementsByClassName("textInputBlock")[0].value;
+        return newText;
+    }
+    songConvert = (el) => {
+        let res;
+        if (JSON.parse(el.result[0].media).length === 0) {
+            res = {
+                artist: el.result[0].artist,
+                title: el.result[0].title,
+                song: null
+            }
+        } else {
+            res = {
+                artist: el.result[0].artist,
+                title: el.result[0].title,
+                song: JSON.parse(el.result[0].media)[0].url
+            }
+        }
+        return res;
+    }
     incorrectAnswer = () => {
+        let listItem = this.songConvert(JSON.parse(this.state.response));
+        console.log(listItem)
+        this.props.addSongInList(listItem);
         this.props.attemptsDecrease();
         this.sendedReset();
         if (this.props.attempts - 1 === 0) {
@@ -53,8 +78,18 @@ class Texter extends Component {
         }
     }
     correctAnswer = () => {
+        let listItem = this.songConvert(JSON.parse(this.state.response));
+        this.props.addSongInList(listItem);
         this.props.attemptsReset();
         this.props.correct();
+    }
+    undefinedAnswer = () => {
+        this.props.attemptsDecrease();
+        this.sendedReset();
+        if (this.props.attempts - 1 === 0) {
+            this.props.attemptsReset();
+            this.props.incorrect();
+        }
     }
 
     render() {
@@ -63,8 +98,12 @@ class Texter extends Component {
                 <ListenText
                     sended={this.state.sended}
                     sendText={this.sendText}
+                    response={this.state.response}
+                    responseIsReady={this.state.responseIsReady}
+
                     incorrectAnswer={this.incorrectAnswer}
-                    correctAnswer={this.correctAnswer} />
+                    correctAnswer={this.correctAnswer}
+                    undefinedAnswer={this.undefinedAnswer} />
                 <AttemptsNumber attempts={this.props.attempts}></AttemptsNumber>
             </div>
         );

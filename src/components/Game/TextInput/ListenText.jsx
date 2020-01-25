@@ -7,6 +7,7 @@ import TextBlock from './TextBlock';
 import Answer from './../../processAnswerPage/Answer';
 import NullAnswer from './../../processAnswerPage/NullAnswer';
 import UserAnswerBtns from './../../processAnswerPage/Submit';
+import Continue from './../../processAnswerPage/Continue'
 
 const useStyles = makeStyles({
     startR: {
@@ -44,15 +45,40 @@ export default function SubmitText(props) {
         );
     }
     else {
-        return (
-            <div>
-                <Answer
-                />
-                <UserAnswerBtns
-                    incorrectAnswer={props.incorrectAnswer}
-                    correctAnswer={props.correctAnswer} />
-            </div>
-        )
+        if (props.responseIsReady) {
+            let response = JSON.parse(props.response)
+            if (response.result.length === 0) {
+                <div>
+                    <NullAnswer />
+                    <Continue incorrectAnswer={props.undefinedAnswer} />
+                </div>
+            }
+            else {
+                let response = JSON.parse(props.response);
+                return (
+                    <div>
+                        <Answer
+                            artist={response.result[0].artist}
+                            title={response.result[0].title}
+                            song={''}
+                        />
+                        <UserAnswerBtns
+                            incorrectAnswer={props.incorrectAnswer}
+                            correctAnswer={props.correctAnswer} />
+                    </div>
+                )
+            }
+        }
+        else {
+            return (
+                <p>Loading...</p>
+            );
+        }
     }
-    return (<div />);
+    return (
+        <div>
+            <NullAnswer />
+            <Continue incorrectAnswer={props.undefinedAnswer} />
+        </div>
+    );
 }

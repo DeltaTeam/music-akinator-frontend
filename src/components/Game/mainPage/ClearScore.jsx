@@ -28,7 +28,7 @@ const useStyles = makeStyles({
 
 export default function ClearScore(props) {
     const classes = useStyles();
-    if (props.gameEnded && props.userGames != 0) {
+    if (props.gameEnded && props.userGames !== 0) {
         return (
             <div>
                 <Button className={classes.startR} onClick={props.clearScore}>Clear score</Button>
