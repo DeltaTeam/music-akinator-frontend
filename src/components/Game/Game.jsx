@@ -51,28 +51,30 @@ class Game extends Component {
             gameEnded: true,
             hasWon: 0,
             inputTypeChosen: 0,
-            attempts: 5
+            attempts: 5,
+            songs: []
         }
     }
 
-    allSettingsReset = () =>{
+    allSettingsReset = () => {
         this.setState({
             gameEnded: true,
             inputTypeChosen: 0,
             attempts: 5,
-            hasWon: 0
+            hasWon: 0,
+            songs: []
         })
     }
     attemptsDecrease = () => {
         let val = this.state.attempts - 1;
         this.setState({
             attempts: val
-        })  
+        })
     }
     attemptsReset = () => {
         this.setState({
             attempts: 5
-        }) 
+        })
     }
 
     textChosen = () => {
@@ -93,15 +95,15 @@ class Game extends Component {
         })
     }
     correct = () => {
-        let newUserGames=this.state.userGames + 1;
+        let newUserGames = this.state.userGames + 1;
         this.setState({
             hasWon: -1,
             userGames: newUserGames
         })
     }
     incorrect = () => {
-        let newUserGames=this.state.userGames + 1;
-        let newUserStrick=this.state.userStrick + 1;
+        let newUserGames = this.state.userGames + 1;
+        let newUserStrick = this.state.userStrick + 1;
         this.setState({
             hasWon: 1,
             userGames: newUserGames,
@@ -150,6 +152,16 @@ class Game extends Component {
         })
     }
 
+    addSongInList = (song) => {
+        if (song.result !== null) {
+            let newSongs = this.state.songs;
+            newSongs.push(song);
+            this.setState({
+                songs: newSongs
+            })
+        }
+    }
+
     render() {
         return (
             <div className='gameBlock'>
@@ -162,17 +174,18 @@ class Game extends Component {
                     gameEnded={this.state.gameEnded}
                     clearScore={this.clearScore}
                     userGames={this.state.userGames} />
-                <ChooseInput 
-                    round={this.state.attempts} 
+                <ChooseInput
+                    round={this.state.attempts}
                     inputTypeChosen={this.state.inputTypeChosen}
-                    hasWon={this.state.hasWon}/>
+                    hasWon={this.state.hasWon} />
                 <ShowRecorder
                     gameEnded={this.state.gameEnded}
                     inputTypeChosen={this.state.inputTypeChosen}
                     audioChosen={this.audioChosen}
-                    textChosen={this.textChosen} 
+                    textChosen={this.textChosen}
                     attempts={this.state.attempts}
                     hasWon={this.state.hasWon}
+                    songs={this.state.songs}
 
                     startGame={this.startGame}
                     endGame={this.endGame}
@@ -182,36 +195,11 @@ class Game extends Component {
                     incorrect={this.incorrect}
                     wonReset={this.wonReset}
                     allSettingsReset={this.allSettingsReset}
-                    />
+                    addSongInList={this.addSongInList}
+                />
             </div>
         );
     }
-}
-
-
-
-
-
-function GameResault(props) {
-    const classes = useStyles();
-    const hasWon = props.hasWon;
-    if (hasWon) {
-        return <div>
-            <Skeleton className={classes.skel} animation={false} />
-            <div className='textBlock greenColor'>
-                You win!
-            </div>
-            <Skeleton className={classes.skel} animation={false} />
-        </div>
-
-    }
-    return <div>
-        <Skeleton className={classes.skel} animation={false} />
-        <div className='textBlock redColor'>
-            You loose!
-        </div>
-        <Skeleton className={classes.skel} animation={false} />
-    </div>
 }
 
 export default Game;

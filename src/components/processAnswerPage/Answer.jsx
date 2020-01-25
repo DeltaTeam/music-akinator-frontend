@@ -2,9 +2,11 @@ import React from 'react';
 
 const Answer = props => (
     <div>
-        <p>Answer:</p>
-        <p>Singer&emsp;-&emsp;song</p>
-        <p>Song bar</p>
+        <p className='standartTextBlock greyColor'>Answer:</p>
+        <p className='standartTextBlock greyColor'>{props.artist} &mdash; {props.title}</p>
+        <audio controls>
+            <source src={props.song}></source>
+        </audio>
     </div>
 )
 

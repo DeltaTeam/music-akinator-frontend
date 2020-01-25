@@ -53,6 +53,27 @@
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 }
 
+.standartTextBlock {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 16px;
+    /* identical to box height, or 114% */
+    letter-spacing: 1.25px;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+.centeredStandartTextBlock {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 16px;
+    /* identical to box height, or 114% */
+    text-align: center;
+    letter-spacing: 1.25px;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
 .gameBlock {
     margin-left: calc(50% - 300px/2 + 0.5px);
     width: 300px;
@@ -69,4 +90,12 @@
     padding: 5px;
     background-color: white;
     border-radius: 10px;
+}
+
+.gameButton {
+    width: 300px;
+    background-color: #98BF1F;
+    text-transform: uppercase;
+    border-radius: 4px;
+    margin-top: 10px;
 }
