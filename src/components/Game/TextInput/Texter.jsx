@@ -15,7 +15,6 @@ class Texter extends Component {
             isBlocked: false,
             isRecorded: false,
             text: 'hello it`s me',
-
             sended: false,
             response: ''
         }
@@ -36,6 +35,7 @@ class Texter extends Component {
             sended: true
         })
         console.log("sendText");
+        console.log(document.getElementsByClassName("textInputBlock")[0]);
         //Когда будет запрос на сайт, его нужно сюда писать и здесь же проводить анализ угадал сайт или не угадал. Если угадал, то делаем hasWon - тру
         this.audd.sendLyrics(this.handleResponse, this.state.text);
     }

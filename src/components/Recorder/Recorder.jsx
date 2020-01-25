@@ -13,6 +13,10 @@ const Mp3Recorder = new MicRecorder({ bitRate: 128 });
 
 class Recorder extends Component {
   audd = new auddIO();
+  time = new Date();
+  // timeStart = 0;
+  timeStart = this.time.getTime();
+  maxLengthSong = 20;
   constructor(props) {
     super(props);
     this.state = {
@@ -23,18 +27,26 @@ class Recorder extends Component {
       file: {},
       fileIsReady: false,
       blobURL: '',
-      sended: false,
+      sended: false
     }
   }
 
-  getSongInfo() {
+  getSongInfo=()=> {
     return this.state.response;
+  }
+  getTime=()=>{
+    console.log(this.timeStart);
+    console.log(this.time.getTime());
+    return this.time.getTime() - this.timeStart;
   }
 
   start = () => {
     if (this.state.isBlocked) {
       console.log('Permission Denied');
     } else {
+      this.time = new Date();
+      this.timeStart = this.time.getDate();
+      // console.log(Mp3Recorder);
       Mp3Recorder
         .start()
         .then(() => {
@@ -60,6 +72,7 @@ class Recorder extends Component {
           file: blob,
           fileIsReady: true
         }, () => { console.log(this.state.file) });
+        this.timeStart = this.time.getTime();
 
         const blobURL = URL.createObjectURL(blob);
         this.setState({ blobURL, isRecording: false });
@@ -159,6 +172,11 @@ class Recorder extends Component {
   }
 
   render() {
+    // this.time = new Date();
+    // if(this.getTime() > this.maxLengthSong*1000 && this.state.isRecording===true){
+    //   console.log(this.getTime());
+    //   // this.stop();
+    // }
     return (
       <div className='Recorder'>
         <CreateRecord
