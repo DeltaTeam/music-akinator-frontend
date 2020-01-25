@@ -6,10 +6,10 @@ import React, { Component } from 'react';
 import Submit from '../../styles/Pictures/submit.svg';
 import Rewrite from '../../styles/Pictures/rewrite.svg';
 
-const useStyles = makeStyles({
-  root: {
+import Answer from './../processAnswerPage/Answer'
+import UserAnswerBtns from './../processAnswerPage/Submit'
 
-  },
+const useStyles = makeStyles({
   startR: {
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
     padding: '0 30px',
@@ -59,19 +59,26 @@ const useStyles = makeStyles({
 });
 
 
-export default function ListenRecord(props) {
+export default function MsgAndAnswer(props) {
   const classes = useStyles();
   const isRecorded = props.isRecorded;
   if (isRecorded) {
+    if(props.sended){
+      return(
+        <div>
+          <Answer/>
+          <UserAnswerBtns incorrectAnswer={props.incorrectAnswer} correctAnswer={props.correctAnswer}/>
+        </div>
+      )
+    }
     return <div>
       <Skeleton className={classes.skel} animation={false} />
       <Button className={classes.startR} onClick={props.rewrite}>rewrite recording<img src={Rewrite} width={36} height={36} /></Button>
       <div className='AudioBlock'>
-        <audio src={props.src} controls="controls" />
+        <audio src={props.src} controls="controls" className='AudioControls'/>
       </div>
-      <Button className={classes.startR} onClick={props.handleSubmit}>submit recording<img src={Submit} width={36} height={36} /></Button>
+      <Button className={classes.startR} onClick={props.sendSong}>submit recording<img src={Submit} width={36} height={36} /></Button>
       <Skeleton className={classes.skel} animation={false} />
-
     </div>
   }
   return <div />

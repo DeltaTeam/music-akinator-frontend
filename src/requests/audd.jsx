@@ -1,5 +1,6 @@
 import testResponse from './testResponse';
 import creds from './credentials';
+
 var request = require('request');
 
 function readResponse() {
@@ -7,7 +8,7 @@ function readResponse() {
 }
 
 class auddIO {
-  constructor() {
+  constructor() {<<<<<<< HEAD
     this.rtn = {};
     this.api_token = creds.api_token;
 

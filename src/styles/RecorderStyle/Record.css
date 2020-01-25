@@ -1,26 +1,30 @@
-.Recorder{
+.Recorder {
     margin-left: calc(50% - 300px/2 + 0.5px);
     width: 300px;
 }
 
-.AudioBlock{
+.AudioBlock {
     color: red;
-    background: green;
-    border-radius: 4px;
-    margin-top: 4px;
-    margin-bottom: 4px;
-
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-bottom: 1px;
+    width: 300px;
 }
 
-.textAttempts{
+.textAttempts {
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
-    line-height: 16px,;
+    line-height: 16px, ;
+    margin-top: 10px;
     /* identical to box height, or 114% */
     text-align: center;
     letter-spacing: 1.25px;
     text-transform: uppercase;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     color: rgb(226, 95, 95);
+}
+
+.AudioControls{
+    width: 300px;
 }

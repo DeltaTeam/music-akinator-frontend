@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import Recorder from '../../Recorder/Recorder';
 import InputTypeButtons from '../inputTypePage/InputTypeButtons'
+import Texter from '../TextInput/Texter'
+import GoToMainMenu from '../endGame/GoToMainMenu'
 
 const useStyles = makeStyles({
     startR: {
@@ -35,49 +37,73 @@ export default function ShowRecorder(props) {
     const gameEnded = props.gameEnded;
     const inputTypeChosen = props.inputTypeChosen
 
-    const games = props.games;
-
     if (gameEnded) {
         return (
             <div>
-                {/* <Skeleton className={classes.skel} animation={false} /> */}
                 <Button
                     className={classes.startR}
                     onClick={props.startGame}> Start Game </Button>
-                {/* <Skeleton className={classes.skel} animation={false} /> */}
             </div>)
     }
     else {
-        if (inputTypeChosen == 0) {
-            return (
-                <InputTypeButtons 
-                    textChosen={props.textChosen} 
-                    audioChosen={props.audioChosen} />
-            )
-        }
-        if (inputTypeChosen == 1) {
-            return (
-                <div>
-                    <Recorder 
-                    attempts = {props.attempts}
-                    hasWon = {props.hasWon}
+        if (props.hasWon === 0) {
+            if (inputTypeChosen === 0) {
+                return (
+                    <InputTypeButtons
+                        textChosen={props.textChosen}
+                        audioChosen={props.audioChosen} />
+                )
+            }
+            if (inputTypeChosen === 1) {
+                return (
+                    <div>
+                        <Recorder
+                            attempts={props.attempts}
+                            hasWon={props.hasWon}
+                            sended={props.sended}
 
-                    endGame={props.endGame} 
-                    attemptsDecrease = {props.attemptsDecrease}
-                    attemptsResert = {props.attemptsResert}
-                    correct = {props.correct}
-                    incorrect = {props.incorrect}
-                    wonReset = {props.wonReset}/>
-                </div>
-            )
+                            endGame={props.endGame}
+                            attemptsDecrease={props.attemptsDecrease}
+                            attemptsReset={props.attemptsReset}
+                            correct={props.correct}
+                            incorrect={props.incorrect}
+                            wonReset={props.wonReset} />
+                    </div>
+                )
+            }
+            if (inputTypeChosen === -1) {
+                return (
+                    <Texter
+                        attempts={props.attempts}
+                        hasWon={props.hasWon}
+                        sended={props.sended}
+
+                        endGame={props.endGame}
+                        attemptsDecrease={props.attemptsDecrease}
+                        attemptsReset={props.attemptsReset}
+                        correct={props.correct}
+                        incorrect={props.incorrect}
+                        wonReset={props.wonReset} />
+                )
+            }
         }
-        if (inputTypeChosen == -1) {
-            return (
-                <p>Text</p>
-            )
+        else {
+            if (props.hasWon === 1) {
+                return (
+                    <div>
+                        <p>You won</p>
+                        <GoToMainMenu allSettingsReset={props.allSettingsReset} />
+                    </div>
+                )
+            }
+            else {
+                return (
+                    <div>
+                        <p>You lose</p>
+                        <GoToMainMenu allSettingsReset={props.allSettingsReset} />
+                    </div>
+                )
+            }
         }
     }
-    return (
-        <p>End Game</p>
-    )
 }

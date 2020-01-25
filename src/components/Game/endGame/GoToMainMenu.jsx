@@ -1,20 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
-    root: {
-
-    },
-    skel: {
-        width: 300,
-        background: 'red',
-    },
     startR: {
         boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
         padding: '0 30px',
         width: '300px',
         height: '36px',
         marginLeft: 'calc(50% - 300px/2 + 0.5px)',
+        marginTop: '10px',
         top: 'calc(50% - 16px/2)',
         borderRadius: '4px',
         /* button */
@@ -32,11 +27,11 @@ const useStyles = makeStyles({
     },
 });
 
-export default function Submit(props){
-    return(
+export default function GoToMainMenu(props) {
+    const classes = useStyles();
+    return (
         <div>
-            <Button className={classes.startR} onClick={props.clearScore}>Correct</Button>
-            <Button className={classes.startR} onClick={props.clearScore}>Incorrect</Button>
+            <Button className={classes.startR} onClick={props.allSettingsReset}>Main menu</Button>
         </div>
     )
 }
