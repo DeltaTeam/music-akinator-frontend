@@ -85,7 +85,8 @@ export default function ShowRecorder(props) {
                         attemptsReset={props.attemptsReset}
                         correct={props.correct}
                         incorrect={props.incorrect}
-                        wonReset={props.wonReset} />
+                        wonReset={props.wonReset}
+                        addSongInList={props.addSongInList} />
                 )
             }
         }
