@@ -22,7 +22,9 @@ class Recorder extends Component {
       attemptsLeft: 5,
       hasWon: false,
       hasLost: false,
-      response: ''
+      response: '',
+      file: {},
+      fileIsReady: false
     }
   }
 
@@ -38,19 +40,9 @@ class Recorder extends Component {
     }
   };
 
-  // handleResponse = (response) => {
-  //   //const resault = props.resault,
-  //   const res = response;
-  //   this.setState({
-  //     response: res,
-  //   }, () => {
-  //     console.log(this.state.response)
-  //   });
-  //   ;
-  // }
-  handleResponse = (text) => {
+  handleResponse = (responseAudD) => {
     this.setState({
-      response: text,
+      response: responseAudD,
     }, () => {
       console.log(this.state.response);
     });
@@ -61,6 +53,15 @@ class Recorder extends Component {
       .stop()
       .getMp3()
       .then(([buffer, blob]) => {
+        const _file = new File (buffer, "audio.mp3", {
+          type: blob.type,
+          lastModified: Date.now()
+        });
+        console.log(blob);
+        this.setState({
+          file: blob,
+          fileIsReady: true
+        },()=>{console.log(this.state.file)});
 
         const blobURL = URL.createObjectURL(blob);
         this.setState({ blobURL, isRecording: false });
@@ -85,9 +86,10 @@ class Recorder extends Component {
   handleSubmit = () => {
     const attempts = this.props.attempts;
     //Когда будет запрос на сайт, его нужно сюда писать и здесь же проводить анализ угадал сайт или не угадал. Если угадал, то делаем hasWon - тру
-    this.audd.sendTest(this.handleResponse);
+    // this.audd.sendAudio(this.handleResponse, this.state.file);
     // console.log(this.state.blobURL);
     // this.audd.sendLyrics(this.handleResponse,"adele hello");
+    this.audd.sendTest(this.handleResponse);
     if (!this.state.hasWon) {
       this.props.attemptsDecrease();
       if (attempts - 1 === 0) {

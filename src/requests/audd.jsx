@@ -1,4 +1,5 @@
 import testResponse from './testResponse';
+import creds from './credentials';
 import $ from 'jquery';
 var request = require('request');
 
@@ -8,9 +9,8 @@ function readResponse() {
 
 class auddIO {
   constructor() {
-    // this.handleResponse = handleResponse;
     this.rtn = {};
-    this.api_token = '6950b7b569a80df42c26795865702903';
+    this.api_token = creds.api_token;
 
   }
   sendTest(handleResponse) {
@@ -34,20 +34,37 @@ class auddIO {
   }
 
   sendAudio(handleResponse,file) {
+    const url = 'https://api.audd.io/';
+
     var data = {
-      'url': 'https://audd.tech/example1.mp3',
+      'file': file,
       'return': 'timecode,deezer,spotify',
       'api_token': this.api_token
     }
-    request
-      ({
-        uri: 'https://api.audd.io/',
-        form: file,
-        method: 'POST'
-      }, function (err, res, body) {
-        handleResponse(body);
-      });
+
+    console.log(file);
+    var formData = new FormData();
+    formData.append('file', data.file);
+    formData.append('return', 'timecode,deezer,spotify');
+    formData.append('api_token', data.api_token);
+
+    var oReq = new XMLHttpRequest();
+    oReq.open("POST", url);
+    oReq.send(formData);
+
+    oReq.onload = function(oEvent) {
+        if (oReq.status == 200) {
+            console.log("Uploaded");
+            console.log(oReq);
+            console.log(oEvent);
+            handleResponse(oReq.response);
+        } else {
+            console.log("Error " + oReq.status + " occurred uploading your file.");
+            handleResponse({'status':'error'});
+          }
+  };
   }
+
 
   sendLyrics(handleResponse,lyrics) {
     var data = {
