@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import Recorder from '../../Recorder/Recorder';
 import InputTypeButtons from '../inputTypePage/InputTypeButtons'
+import Texter from '../TextInput/Texter'
 import GoToMainMenu from '../endGame/GoToMainMenu'
 
 const useStyles = makeStyles({
@@ -36,16 +37,12 @@ export default function ShowRecorder(props) {
     const gameEnded = props.gameEnded;
     const inputTypeChosen = props.inputTypeChosen
 
-    const games = props.games;
-
     if (gameEnded) {
         return (
             <div>
-                {/* <Skeleton className={classes.skel} animation={false} /> */}
                 <Button
                     className={classes.startR}
                     onClick={props.startGame}> Start Game </Button>
-                {/* <Skeleton className={classes.skel} animation={false} /> */}
             </div>)
     }
     else {
@@ -63,10 +60,11 @@ export default function ShowRecorder(props) {
                         <Recorder
                             attempts={props.attempts}
                             hasWon={props.hasWon}
+                            sended={props.sended}
 
                             endGame={props.endGame}
                             attemptsDecrease={props.attemptsDecrease}
-                            attemptsResert={props.attemptsResert}
+                            attemptsReset={props.attemptsReset}
                             correct={props.correct}
                             incorrect={props.incorrect}
                             wonReset={props.wonReset} />
@@ -75,7 +73,17 @@ export default function ShowRecorder(props) {
             }
             if (inputTypeChosen === -1) {
                 return (
-                    <p>Text</p>
+                    <Texter
+                        attempts={props.attempts}
+                        hasWon={props.hasWon}
+                        sended={props.sended}
+
+                        endGame={props.endGame}
+                        attemptsDecrease={props.attemptsDecrease}
+                        attemptsReset={props.attemptsReset}
+                        correct={props.correct}
+                        incorrect={props.incorrect}
+                        wonReset={props.wonReset} />
                 )
             }
         }
@@ -98,7 +106,4 @@ export default function ShowRecorder(props) {
             }
         }
     }
-    // return (
-    //     <p>End Game</p>
-    // )
 }

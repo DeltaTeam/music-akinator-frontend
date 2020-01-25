@@ -69,7 +69,7 @@ class Game extends Component {
             attempts: val
         })  
     }
-    attemptsResert = () => {
+    attemptsReset = () => {
         this.setState({
             attempts: 5
         }) 
@@ -177,7 +177,7 @@ class Game extends Component {
                     startGame={this.startGame}
                     endGame={this.endGame}
                     attemptsDecrease={this.attemptsDecrease}
-                    attemptsResert={this.attemptsResert}
+                    attemptsReset={this.attemptsReset}
                     correct={this.correct}
                     incorrect={this.incorrect}
                     wonReset={this.wonReset}

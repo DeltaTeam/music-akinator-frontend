@@ -6,13 +6,10 @@ import React, { Component } from 'react';
 import Submit from '../../styles/Pictures/submit.svg';
 import Rewrite from '../../styles/Pictures/rewrite.svg';
 
-import Answer from './processAnswerPage/Answer'
-import UserAnswerBtns from './processAnswerPage/Submit'
+import Answer from './../processAnswerPage/Answer'
+import UserAnswerBtns from './../processAnswerPage/Submit'
 
 const useStyles = makeStyles({
-  root: {
-
-  },
   startR: {
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
     padding: '0 30px',
@@ -82,7 +79,6 @@ export default function MsgAndAnswer(props) {
       </div>
       <Button className={classes.startR} onClick={props.sendSong}>submit recording<img src={Submit} width={36} height={36} /></Button>
       <Skeleton className={classes.skel} animation={false} />
-
     </div>
   }
   return <div />

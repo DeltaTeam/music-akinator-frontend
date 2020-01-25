@@ -6,6 +6,8 @@ import CreateRecord from './CreateRecord';
 import '../../styles/GamesStyles/Game.css';
 import auddIO from '../../requests/audd';
 
+import AttemptsNumber from './../Game/inputTypePage/AttemptsNumber'
+
 
 const Mp3Recorder = new MicRecorder({ bitRate: 128 });
 
@@ -15,15 +17,11 @@ class Recorder extends Component {
     super(props);
     this.state = {
       isRecording: false,
-      blobURL: '',
       isBlocked: false,
       isRecorded: false,
-      text: '',
+      song: '',
 
-      attemptsLeft: 5,
-      hasWon: false,
-      hasLost: false,
-      sended: false
+      sended: false,
       response: ''
     }
   }
@@ -62,7 +60,7 @@ class Recorder extends Component {
       })
       .catch((e) => console.log(e));
     this.setState({ isRecorded: true });
-
+  }
   rewrite = () => {
     this.setState(
       {
@@ -88,13 +86,13 @@ class Recorder extends Component {
   incorrectAnswer = () => {
     this.props.attemptsDecrease();
     this.sendedReset();
-    if (this.props.attempts - 1 == 0) {
-      this.props.attemptsResert();
+    if (this.props.attempts - 1 === 0) {
+      this.props.attemptsReset();
       this.props.incorrect();
     }
   }
   correctAnswer = () => {
-    this.props.attemptsResert();
+    this.props.attemptsReset();
     this.props.correct();
   }
 
@@ -107,7 +105,7 @@ class Recorder extends Component {
     if (!this.state.hasWon) {
       this.props.attemptsDecrease();
       if (attempts - 1 === 0) {
-        this.props.attemptsResert();
+        this.props.attemptsReset();
         this.props.endGame(this.state.hasWon);
       }
       else {
@@ -173,11 +171,5 @@ class Recorder extends Component {
     );
   }
 }
-
-const AttemptsNumber = props => (
-  <div className='textAttempts'>
-    you have {`${props.attempts}`} attempts left
-  </div>
-)
 
 export default Recorder;
