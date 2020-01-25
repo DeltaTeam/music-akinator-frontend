@@ -6,6 +6,7 @@ import Recorder from '../../Recorder/Recorder';
 import InputTypeButtons from '../inputTypePage/InputTypeButtons'
 import Texter from '../TextInput/Texter'
 import GoToMainMenu from '../endGame/GoToMainMenu'
+import SongsList from '../../processAnswerPage/SongsList'
 
 const useStyles = makeStyles({
     startR: {
@@ -67,7 +68,8 @@ export default function ShowRecorder(props) {
                             attemptsReset={props.attemptsReset}
                             correct={props.correct}
                             incorrect={props.incorrect}
-                            wonReset={props.wonReset} />
+                            wonReset={props.wonReset}
+                            addSongInList={props.addSongInList} />
                     </div>
                 )
             }
@@ -91,7 +93,9 @@ export default function ShowRecorder(props) {
             if (props.hasWon === 1) {
                 return (
                     <div>
-                        <p>You won</p>
+                        <p className='centeredStandartTextBlock greyColor'>AI dasn`t know your song.</p>
+                        <p className='centeredStandartTextBlock greyColor'>You won ... this time.</p>
+                        <SongsList songs={props.songs}></SongsList>
                         <GoToMainMenu allSettingsReset={props.allSettingsReset} />
                     </div>
                 )
@@ -99,7 +103,9 @@ export default function ShowRecorder(props) {
             else {
                 return (
                     <div>
-                        <p>You lose</p>
+                        <p className='centeredStandartTextBlock greyColor'>Ha ha ha. It`s so easy for AI.</p>
+                        <p className='centeredStandartTextBlock greyColor'>You Loose.</p>
+                        <SongsList songs={props.songs}></SongsList>
                         <GoToMainMenu allSettingsReset={props.allSettingsReset} />
                     </div>
                 )

@@ -5,6 +5,7 @@ import Submit from '../../../styles/Pictures/submit.svg';
 
 import TextBlock from './TextBlock';
 import Answer from './../../processAnswerPage/Answer';
+import NullAnswer from './../../processAnswerPage/NullAnswer';
 import UserAnswerBtns from './../../processAnswerPage/Submit';
 
 const useStyles = makeStyles({
@@ -45,9 +46,10 @@ export default function SubmitText(props) {
     else {
         return (
             <div>
-                <Answer />
-                <UserAnswerBtns 
-                    incorrectAnswer={props.incorrectAnswer} 
+                <Answer
+                />
+                <UserAnswerBtns
+                    incorrectAnswer={props.incorrectAnswer}
                     correctAnswer={props.correctAnswer} />
             </div>
         )

@@ -20,6 +20,7 @@ class Recorder extends Component {
       isBlocked: false,
       isRecorded: false,
       response: '',
+      responseIsReady: false,
       file: {},
       fileIsReady: false,
       blobURL : '',
@@ -45,9 +46,9 @@ class Recorder extends Component {
 
   handleResponse = (responseAudd) => {
     this.setState({
-      response: responseAudd,
+      response: responseAudd, responseIsReady: true
     }, () => {
-      console.log(this.state.response);
+      // console.log(this.state.response);
     });
   }
 
@@ -84,52 +85,29 @@ class Recorder extends Component {
     this.setState({
       sended: true
     });
-    this.audd.sendAudio(this.handleResponse, this.state.file);
+    // this.audd.sendAudio(this.handleResponse, this.state.file);
+    this.audd.sendTest(this.handleResponse);
     //Когда будет запрос на сайт, его нужно сюда писать и здесь же проводить анализ угадал сайт или не угадал. Если угадал, то делаем hasWon - тру
   }
   sendedReset = () => {
     this.setState({
-      sended: false
+      sended: false,
+      responseIsReady: false
     })
   }
   incorrectAnswer = () => {
     this.props.attemptsDecrease();
     this.sendedReset();
+    this.props.addSongInList(JSON.parse(this.state.response));
     if (this.props.attempts - 1 === 0) {
       this.props.attemptsReset();
       this.props.incorrect();
     }
   }
   correctAnswer = () => {
+    this.props.addSongInList(JSON.parse(this.state.response));
     this.props.attemptsReset();
     this.props.correct();
-  }
-
-  handleSubmit = () => {
-    const attempts = this.props.attempts;
-    //Когда будет запрос на сайт, его нужно сюда писать и здесь же проводить анализ угадал сайт или не угадал. Если угадал, то делаем hasWon - тру
-    // this.audd.sendAudio(this.handleResponse, this.state.file);
-    // console.log(this.state.blobURL);
-    // this.audd.sendLyrics(this.handleResponse,"adele hello");
-    this.audd.sendTest(this.handleResponse);
-    if (!this.state.hasWon) {
-      this.props.attemptsDecrease();
-      if (attempts - 1 === 0) {
-        this.props.attemptsReset();
-        this.props.endGame(this.state.hasWon);
-      }
-      else {
-        this.setState({
-          isRecording: false,
-          blobURL: '',
-          isBlocked: false,
-          isRecorded: false,
-        })
-      }
-    } else {
-      this.props.endGame(this.state.hasWon);
-    }
-
   }
 
   componentDidMount() {
@@ -170,9 +148,10 @@ class Recorder extends Component {
           isRecorded={this.state.isRecorded}
           sended={this.state.sended}
           src={this.state.blobURL}
+          response={this.state.response}
+          responseIsReady={this.state.responseIsReady}
 
           rewrite={this.rewrite}
-          handleSubmit={this.handleSubmit}
           sendSong={this.sendSong}
           incorrectAnswer={this.incorrectAnswer}
           correctAnswer={this.correctAnswer} />
