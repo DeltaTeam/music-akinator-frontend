@@ -13,23 +13,41 @@ const Mp3Recorder = new MicRecorder({ bitRate: 128 });
 
 class Recorder extends Component {
   audd = new auddIO();
+  time = new Date();
+  // timeStart = 0;
+  timeStart = this.time.getTime();
+  maxLengthSong = 20;
   constructor(props) {
     super(props);
     this.state = {
       isRecording: false,
       isBlocked: false,
       isRecorded: false,
-      song: '',
-
-      sended: false,
-      response: ''
+      response: '',
+      responseIsReady: false,
+      file: {},
+      fileIsReady: false,
+      blobURL: '',
+      sended: false
     }
+  }
+
+  getSongInfo=()=> {
+    return this.state.response;
+  }
+  getTime=()=>{
+    console.log(this.timeStart);
+    console.log(this.time.getTime());
+    return this.time.getTime() - this.timeStart;
   }
 
   start = () => {
     if (this.state.isBlocked) {
       console.log('Permission Denied');
     } else {
+      this.time = new Date();
+      this.timeStart = this.time.getDate();
+      // console.log(Mp3Recorder);
       Mp3Recorder
         .start()
         .then(() => {
@@ -38,21 +56,11 @@ class Recorder extends Component {
     }
   };
 
-  // handleResponse = (response) => {
-  //   //const resault = props.resault,
-  //   const res = response;
-  //   this.setState({
-  //     response: res,
-  //   }, () => {
-  //     console.log(this.state.response)
-  //   });
-  //   ;
-  // }
-  handleResponse = (text) => {
+  handleResponse = (responseAudd) => {
     this.setState({
-      response: text,
+      response: responseAudd, responseIsReady: true
     }, () => {
-      console.log(this.state.response);
+      // console.log(this.state.response);
     });
   }
 
@@ -61,9 +69,15 @@ class Recorder extends Component {
       .stop()
       .getMp3()
       .then(([buffer, blob]) => {
+        this.setState({
+          file: blob,
+          fileIsReady: true
+        }, () => { console.log(this.state.file) });
+        this.timeStart = this.time.getTime();
 
         const blobURL = URL.createObjectURL(blob);
         this.setState({ blobURL, isRecording: false });
+
       })
       .catch((e) => console.log(e));
     this.setState({ isRecorded: true });
@@ -83,51 +97,30 @@ class Recorder extends Component {
   sendSong = () => {
     this.setState({
       sended: true
-    })
+    });
+    // this.audd.sendAudio(this.handleResponse, this.state.file);
+    this.audd.sendTest(this.handleResponse);
     //Когда будет запрос на сайт, его нужно сюда писать и здесь же проводить анализ угадал сайт или не угадал. Если угадал, то делаем hasWon - тру
   }
   sendedReset = () => {
     this.setState({
-      sended: false
+      sended: false,
+      responseIsReady: false
     })
   }
   incorrectAnswer = () => {
     this.props.attemptsDecrease();
     this.sendedReset();
+    this.props.addSongInList(JSON.parse(this.state.response));
     if (this.props.attempts - 1 === 0) {
       this.props.attemptsReset();
       this.props.incorrect();
     }
   }
   correctAnswer = () => {
+    this.props.addSongInList(JSON.parse(this.state.response));
     this.props.attemptsReset();
     this.props.correct();
-  }
-
-  handleSubmit = () => {
-    const attempts = this.props.attempts;
-    //Когда будет запрос на сайт, его нужно сюда писать и здесь же проводить анализ угадал сайт или не угадал. Если угадал, то делаем hasWon - тру
-    this.audd.sendTest(this.handleResponse);
-    // console.log(this.state.blobURL);
-    // this.audd.sendLyrics(this.handleResponse,"adele hello");
-    if (!this.state.hasWon) {
-      this.props.attemptsDecrease();
-      if (attempts - 1 === 0) {
-        this.props.attemptsReset();
-        this.props.endGame(this.state.hasWon);
-      }
-      else {
-        this.setState({
-          isRecording: false,
-          blobURL: '',
-          isBlocked: false,
-          isRecorded: false,
-        })
-      }
-    } else {
-      this.props.endGame(this.state.hasWon);
-    }
-
   }
 
   componentDidMount() {
@@ -157,6 +150,11 @@ class Recorder extends Component {
   }
 
   render() {
+    // this.time = new Date();
+    // if(this.getTime() > this.maxLengthSong*1000 && this.state.isRecording===true){
+    //   console.log(this.getTime());
+    //   // this.stop();
+    // }
     return (
       <div className='Recorder'>
         <CreateRecord
@@ -168,9 +166,10 @@ class Recorder extends Component {
           isRecorded={this.state.isRecorded}
           sended={this.state.sended}
           src={this.state.blobURL}
+          response={this.state.response}
+          responseIsReady={this.state.responseIsReady}
 
           rewrite={this.rewrite}
-          handleSubmit={this.handleSubmit}
           sendSong={this.sendSong}
           incorrectAnswer={this.incorrectAnswer}
           correctAnswer={this.correctAnswer} />

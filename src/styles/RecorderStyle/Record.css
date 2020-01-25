@@ -8,6 +8,7 @@
     border-radius: 5px;
     margin-top: 5px;
     margin-bottom: 1px;
+    width: 300px;
 }
 
 .textAttempts {
@@ -22,4 +23,8 @@
     text-transform: uppercase;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     color: rgb(226, 95, 95);
+}
+
+.AudioControls{
+    width: 300px;
 }

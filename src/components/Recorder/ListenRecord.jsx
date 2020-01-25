@@ -7,7 +7,9 @@ import Submit from '../../styles/Pictures/submit.svg';
 import Rewrite from '../../styles/Pictures/rewrite.svg';
 
 import Answer from './../processAnswerPage/Answer'
+import NullAnswer from './../processAnswerPage/NullAnswer'
 import UserAnswerBtns from './../processAnswerPage/Submit'
+import Continue from './../processAnswerPage/Continue'
 
 const useStyles = makeStyles({
   startR: {
@@ -63,19 +65,42 @@ export default function MsgAndAnswer(props) {
   const classes = useStyles();
   const isRecorded = props.isRecorded;
   if (isRecorded) {
-    if(props.sended){
-      return(
-        <div>
-          <Answer/>
-          <UserAnswerBtns incorrectAnswer={props.incorrectAnswer} correctAnswer={props.correctAnswer}/>
-        </div>
-      )
+    if (props.sended) { 
+      if (props.responseIsReady) {
+        let response = JSON.parse(props.response)
+        if (response.result !== null) {
+          return (
+            <div>
+              <Answer
+                artist={response.result.artist}
+                title={response.result.title}
+                song={response.result.deezer.preview} />
+              <UserAnswerBtns incorrectAnswer={props.incorrectAnswer} correctAnswer={props.correctAnswer} />
+            </div>
+          )
+        }
+        else {
+          return (
+            <div>
+              <NullAnswer />
+              <Continue incorrectAnswer={props.incorrectAnswer} />
+            </div>
+          )
+        }
+
+      }
+      else {
+        return (
+          <p>Loading...</p>
+        )
+      }
+
     }
     return <div>
       <Skeleton className={classes.skel} animation={false} />
       <Button className={classes.startR} onClick={props.rewrite}>rewrite recording<img src={Rewrite} width={36} height={36} /></Button>
       <div className='AudioBlock'>
-        <audio src={props.src} controls="controls" />
+        <audio src={props.src} controls="controls" className='AudioControls' />
       </div>
       <Button className={classes.startR} onClick={props.sendSong}>submit recording<img src={Submit} width={36} height={36} /></Button>
       <Skeleton className={classes.skel} animation={false} />

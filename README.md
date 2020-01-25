@@ -5,4 +5,3 @@
 `sudo npm install @material-ui/icons`
 `sudo npm install @material-ui/lab`
 `sudo npm install request`
-`sudo npm install jquery`

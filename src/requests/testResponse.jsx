@@ -1,4 +1,4 @@
-const testResponse = {
+const testResponse = `{
     "status": "success",
     "result": {
         "artist": "Imagine Dragons",
@@ -121,6 +121,6 @@ const testResponse = {
             "uri": "spotify:track:1lgN0A2Vki2FTON5PYq42m"
         }
     }
-};
+}`;
 
 export default testResponse;
