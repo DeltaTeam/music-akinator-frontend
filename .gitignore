@@ -17,5 +17,5 @@ yarn-debug.log*
 yarn-error.log*
 
 # creds
-credentials.json
+# credentials.json
 

@@ -1,6 +1,5 @@
 import testResponse from './testResponse';
 import creds from './credentials';
-import $ from 'jquery';
 var request = require('request');
 
 function readResponse() {
