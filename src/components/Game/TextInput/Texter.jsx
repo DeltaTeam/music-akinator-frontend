@@ -2,27 +2,42 @@ import React, { Component } from 'react';
 
 import ListenText from './ListenText';
 import AttemptsNumber from './../inputTypePage/AttemptsNumber'
+import auddIO from '../../../requests/audd';
 
 
 
 class Texter extends Component {
+    audd = new auddIO();
     constructor(props) {
         super(props);
         this.state = {
             isRecording: false,
             isBlocked: false,
             isRecorded: false,
-            text: '',
+            text: 'hello it`s me',
 
             sended: false,
             response: ''
         }
     }
+    getSongInfo(){
+        return this.state.response;
+      }
+
+    handleResponse(responseAudd){
+        this.setState({
+            response: responseAudd
+        },
+        ()=>{console.log(this.response);
+        });
+    }
     sendText = () => {
         this.setState({
             sended: true
         })
+        console.log("sendText");
         //Когда будет запрос на сайт, его нужно сюда писать и здесь же проводить анализ угадал сайт или не угадал. Если угадал, то делаем hasWon - тру
+        this.audd.sendLyrics(this.handleResponse, this.state.text);
     }
     sendedReset = () => {
         this.setState({

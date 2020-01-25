@@ -22,7 +22,7 @@ class Recorder extends Component {
       response: '',
       file: {},
       fileIsReady: false,
-      blobUrl : '',
+      blobURL : '',
       sended: false,
     }
   }
@@ -43,9 +43,9 @@ class Recorder extends Component {
     }
   };
 
-  handleResponse = (responseAudD) => {
+  handleResponse = (responseAudd) => {
     this.setState({
-      response: responseAudD,
+      response: responseAudd,
     }, () => {
       console.log(this.state.response);
     });
@@ -83,7 +83,8 @@ class Recorder extends Component {
   sendSong = () => {
     this.setState({
       sended: true
-    })
+    });
+    this.audd.sendAudio(this.handleResponse, this.state.file);
     //Когда будет запрос на сайт, его нужно сюда писать и здесь же проводить анализ угадал сайт или не угадал. Если угадал, то делаем hasWon - тру
   }
   sendedReset = () => {

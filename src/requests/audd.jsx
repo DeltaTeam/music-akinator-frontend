@@ -8,8 +8,7 @@ function readResponse() {
 }
 
 class auddIO {
-  constructor() {<<<<<<< HEAD
-    this.rtn = {};
+  constructor() {
     this.api_token = creds.api_token;
 
   }
