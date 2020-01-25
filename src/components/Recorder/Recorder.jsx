@@ -140,7 +140,7 @@ class Recorder extends Component {
       navigator.msGetUserMedia
     );
 
-    if (typeof navigator.getUserMedia === 'undefined') {
+    if (typeof navigator.mediaDevices.getUserMedia === 'undefined') {
       navigator.getUserMedia({
         audio: true
       }, () => {
