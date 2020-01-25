@@ -7,3 +7,5 @@ const Answer = props => (
         <p>Song bar</p>
     </div>
 )
+
+export default Answer

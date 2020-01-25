@@ -57,3 +57,16 @@
     margin-left: calc(50% - 300px/2 + 0.5px);
     width: 300px;
 }
+
+.textInputBlock {
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 450;
+    font-size: 16px;
+    letter-spacing: 0.9px;
+    text-align: start;
+    width: 290px;
+    height: 175px;
+    padding: 5px;
+    background-color: white;
+    border-radius: 10px;
+}

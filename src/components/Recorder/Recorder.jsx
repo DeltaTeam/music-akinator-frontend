@@ -6,6 +6,8 @@ import CreateRecord from './CreateRecord';
 import '../../styles/GamesStyles/Game.css';
 import auddIO from '../../requests/audd';
 
+import AttemptsNumber from './../Game/inputTypePage/AttemptsNumber'
+
 
 const Mp3Recorder = new MicRecorder({ bitRate: 128 });
 
@@ -15,13 +17,11 @@ class Recorder extends Component {
     super(props);
     this.state = {
       isRecording: false,
-      blobURL: '',
       isBlocked: false,
       isRecorded: false,
-      text: '',
-      attemptsLeft: 5,
-      hasWon: false,
-      hasLost: false,
+      song: '',
+
+      sended: false,
       response: ''
     }
   }
@@ -76,11 +76,33 @@ class Recorder extends Component {
         blobURL: '',
         isBlocked: false,
         isRecorded: false,
-
       }
     );
   }
 
+  sendSong = () => {
+    this.setState({
+      sended: true
+    })
+    //Когда будет запрос на сайт, его нужно сюда писать и здесь же проводить анализ угадал сайт или не угадал. Если угадал, то делаем hasWon - тру
+  }
+  sendedReset = () => {
+    this.setState({
+      sended: false
+    })
+  }
+  incorrectAnswer = () => {
+    this.props.attemptsDecrease();
+    this.sendedReset();
+    if (this.props.attempts - 1 === 0) {
+      this.props.attemptsReset();
+      this.props.incorrect();
+    }
+  }
+  correctAnswer = () => {
+    this.props.attemptsReset();
+    this.props.correct();
+  }
 
   handleSubmit = () => {
     const attempts = this.props.attempts;
@@ -91,7 +113,7 @@ class Recorder extends Component {
     if (!this.state.hasWon) {
       this.props.attemptsDecrease();
       if (attempts - 1 === 0) {
-        this.props.attemptsResert();
+        this.props.attemptsReset();
         this.props.endGame(this.state.hasWon);
       }
       else {
@@ -137,26 +159,25 @@ class Recorder extends Component {
   render() {
     return (
       <div className='Recorder'>
-        <CreateRecord 
-          isRecorded={this.state.isRecorded} 
-          isRecording={this.state.isRecording} 
-          start={this.start} stop={this.stop} 
+        <CreateRecord
+          isRecorded={this.state.isRecorded}
+          isRecording={this.state.isRecording}
+          start={this.start} stop={this.stop}
           isRecording={this.state.isRecording} />
-        <ListenRecord 
-          isRecorded={this.state.isRecorded} 
-          src={this.state.blobURL} 
-          rewrite={this.rewrite} 
-          handleSubmit={this.handleSubmit} />
+        <ListenRecord
+          isRecorded={this.state.isRecorded}
+          sended={this.state.sended}
+          src={this.state.blobURL}
+
+          rewrite={this.rewrite}
+          handleSubmit={this.handleSubmit}
+          sendSong={this.sendSong}
+          incorrectAnswer={this.incorrectAnswer}
+          correctAnswer={this.correctAnswer} />
         <AttemptsNumber attempts={this.props.attempts} />
       </div>
     );
   }
 }
-
-const AttemptsNumber = props => (
-  <div className='textAttempts'>
-    you have {`${props.attempts}`} attempts left
-  </div>
-)
 
 export default Recorder;
