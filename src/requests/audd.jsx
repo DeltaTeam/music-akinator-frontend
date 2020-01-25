@@ -1,4 +1,5 @@
 import testResponse from './testResponse';
+import $ from 'jquery';
 var request = require('request');
 
 function readResponse() {
@@ -35,7 +36,7 @@ class auddIO {
   //     });
   // }
 
-  sendAudioBlob(handleResponse,[buffer, blob]) {
+  sendAudio(handleResponse,file) {
     var data = {
       'url': 'https://audd.tech/example1.mp3',
       'return': 'timecode,deezer,spotify',
@@ -44,7 +45,7 @@ class auddIO {
     request
       ({
         uri: 'https://api.audd.io/',
-        form: data,
+        form: file,
         method: 'POST'
       }, function (err, res, body) {
         handleResponse(body);
@@ -58,18 +59,16 @@ class auddIO {
       'return': 'timecode,deezer,spotify',
       'api_token': this.api_token
     }
-    var req = request
+    request
       ({
         uri: 'https://api.audd.io/',
         form: data,
         method: 'POST'
       }, function (err, res, body) {;
-        this.handleResponse(body);
+        handleResponse(body);
       });
   }
 
 }
-
-
 
 export default auddIO

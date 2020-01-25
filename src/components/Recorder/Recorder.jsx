@@ -38,15 +38,22 @@ class Recorder extends Component {
     }
   };
 
-  handleResponse = (response) => {
-    //const resault = props.resault,
-    const res = response;
+  // handleResponse = (response) => {
+  //   //const resault = props.resault,
+  //   const res = response;
+  //   this.setState({
+  //     response: res,
+  //   }, () => {
+  //     console.log(this.state.response)
+  //   });
+  //   ;
+  // }
+  handleResponse = (text) => {
     this.setState({
-      response: res,
+      response: text,
     }, () => {
-      console.log(this.state.response)
+      console.log(this.state.response);
     });
-    ;
   }
 
   stop = () => {
@@ -61,6 +68,7 @@ class Recorder extends Component {
       .catch((e) => console.log(e));
     this.setState({ isRecorded: true });
   }
+
   rewrite = () => {
     this.setState(
       {
@@ -99,9 +107,9 @@ class Recorder extends Component {
   handleSubmit = () => {
     const attempts = this.props.attempts;
     //Когда будет запрос на сайт, его нужно сюда писать и здесь же проводить анализ угадал сайт или не угадал. Если угадал, то делаем hasWon - тру
-    // console.log(this.audd.sendTest())
+    this.audd.sendTest(this.handleResponse);
     // console.log(this.state.blobURL);
-    this.audd.sendTest(this.handleResponse)
+    // this.audd.sendLyrics(this.handleResponse,"adele hello");
     if (!this.state.hasWon) {
       this.props.attemptsDecrease();
       if (attempts - 1 === 0) {
