@@ -68,10 +68,12 @@ export default function MsgAndAnswer(props) {
     if (props.sended) { 
       if (props.responseIsReady) {
         let response = JSON.parse(props.response)
+        console.log(response);
         if(response.status === 'error'){
           return(
             <div>
               <p className='standartTextBlock greyColor'>Incorrect length</p>
+              <p className='standartTextBlock greyColor'>And switch on your micro!!!</p>
               <Continue incorrectAnswer={props.undefinedAnswer} />
             </div>
           )
