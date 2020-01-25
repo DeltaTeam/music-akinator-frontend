@@ -1,5 +1,5 @@
 import testResponse from './testResponse';
-import $ from 'jquery';
+// import $ from 'jquery';
 var request = require('request');
 
 function readResponse() {

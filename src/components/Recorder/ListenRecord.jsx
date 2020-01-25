@@ -75,7 +75,7 @@ export default function MsgAndAnswer(props) {
       <Skeleton className={classes.skel} animation={false} />
       <Button className={classes.startR} onClick={props.rewrite}>rewrite recording<img src={Rewrite} width={36} height={36} /></Button>
       <div className='AudioBlock'>
-        <audio src={props.src} controls="controls" />
+        <audio src={props.src} controls="controls" className='AudioControls'/>
       </div>
       <Button className={classes.startR} onClick={props.sendSong}>submit recording<img src={Submit} width={36} height={36} /></Button>
       <Skeleton className={classes.skel} animation={false} />

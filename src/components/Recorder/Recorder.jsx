@@ -22,8 +22,13 @@ class Recorder extends Component {
       song: '',
 
       sended: false,
-      response: ''
+      response: '',
+      file: {}
     }
+  }
+
+  getSongInfo(){
+    return this.state.response;
   }
 
   start = () => {
@@ -33,7 +38,7 @@ class Recorder extends Component {
       Mp3Recorder
         .start()
         .then(() => {
-          this.setState({ isRecording: true });
+          this.setState({isRecording: true });
         }).catch((e) => console.error(e));
     }
   };
@@ -61,9 +66,7 @@ class Recorder extends Component {
       .stop()
       .getMp3()
       .then(([buffer, blob]) => {
-
-        const blobURL = URL.createObjectURL(blob);
-        this.setState({ blobURL, isRecording: false });
+        this.setState({ file: blob, isRecording: false });
       })
       .catch((e) => console.log(e));
     this.setState({ isRecorded: true });
