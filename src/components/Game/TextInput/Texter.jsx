@@ -20,15 +20,15 @@ class Texter extends Component {
             response: ''
         }
     }
-    getSongInfo(){
+    getSongInfo() {
         return this.state.response;
-      }
+    }
 
-    handleResponse(responseAudd){
+    handleResponse = (responseAudd) => {
         this.setState({
-            response: responseAudd
-        },
-        ()=>{console.log(this.response);
+            response: responseAudd,
+        }, () => {
+            console.log(this.state.response);
         });
     }
     sendText = () => {
@@ -65,7 +65,7 @@ class Texter extends Component {
                     sendText={this.sendText}
                     incorrectAnswer={this.incorrectAnswer}
                     correctAnswer={this.correctAnswer} />
-                    <AttemptsNumber attempts={this.props.attempts}></AttemptsNumber>
+                <AttemptsNumber attempts={this.props.attempts}></AttemptsNumber>
             </div>
         );
     }
